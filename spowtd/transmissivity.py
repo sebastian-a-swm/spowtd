@@ -4,6 +4,8 @@
 
 import numpy as np
 
+import copy 
+
 import scipy.integrate as integrate_mod
 
 import spowtd.spline as spline_mod
@@ -106,9 +108,14 @@ class PeatclsmTransmissivity:
         alpha = self.alpha
         zeta_max_cm = self.zeta_max_cm
         water_level_mm = np.asarray(water_level_mm)
-        if (water_level_mm / 10 > zeta_max_cm).any():
+##### manual code change for lowering zeta max and T to infinity above
+#        water_level_mm_corr = copy.deepcopy(water_level_mm)
+#        water_level_mm_corr[(water_level_mm/10)>zeta_max_cm]=(zeta_max_cm-0.0001)*10
+        if(water_level_mm / 10 > zeta_max_cm).any():
             raise ValueError('T undefined at water level > {} cm in {}'
                              .format(zeta_max_cm, water_level_mm / 10))
         return (
+#            Ksmacz0 * (zeta_max_cm - water_level_mm_corr / 10) ** (1 - alpha)
+#         ) / (100 * (alpha - 1))
             Ksmacz0 * (zeta_max_cm - water_level_mm / 10) ** (1 - alpha)
         ) / (100 * (alpha - 1))

@@ -246,3 +246,4 @@ def generate_timestamped_rows(rows, tz):
             raise ValueError('Non-integer seconds in datetime {}'
                              .format(row[0]))
         yield [int(epoch)] + row[1:]
+
