@@ -265,19 +265,10 @@ def generate_curves_tpl_file(
             for value in parameters['specific_yield']['zeta_knots_mm']
         ]
         lines += ['  sy_knots:  # Specific yield, dimensionless']
-<<<<<<< HEAD
         lines += ['    - @sy_knot_{}@'.format(str(i).ljust(23))
                   for i in
                   range(1,
                         len(parameters['specific_yield']['sy_knots']) + 1)]
-=======
-        lines += [
-            '    - @sy_knot_{}@'.format(str(i).ljust(16))
-            for i in range(
-                1, len(parameters['specific_yield']['sy_knots']) + 1
-            )
-        ]
->>>>>>> d2b17963b20619691675923b8d97dfa63a301b74
     lines += ['transmissivity:']
     if parameters['transmissivity']['type'] == 'peatclsm':
         lines += [
