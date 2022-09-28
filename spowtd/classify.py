@@ -499,7 +499,7 @@ def find_stable_matching(storm_candidates, jump_preferences):
             matches[jump] = storm
             storm_is_free = False
         if storm_is_free and storm_candidates[storm]:
-            matchable_storms.append(storm)
+            matchable_storms.add(storm)
     return matches
 
 
