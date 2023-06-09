@@ -1,0 +1,10 @@
+ PEST RUN RECORD: CASE Ekolongouma1.5_5/Ekolongouma1.5_5_curves_calibration
+
+
+ PEST Version: 17.3
+
+ ******************************************************************************
+ Error condition prevents continued PEST execution:-
+
+ Cannot open instruction file curves_observations.ins.
+ ******************************************************************************

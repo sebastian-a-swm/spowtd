@@ -1,0 +1,48 @@
+               PARAMETER SENSITIVITIES: CASE spline_rise_calibration
+
+
+ OPTIMISATION ITERATION NO.  1 ----->
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.150000          3.17856    
+   sy_knot_2       sy_knot         0.250000          3.90977    
+   sy_knot_3       sy_knot         0.450000          2.68870    
+
+
+ OPTIMISATION ITERATION NO.  2 ----->
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.145608          3.17856    
+   sy_knot_2       sy_knot         0.248285          3.90977    
+   sy_knot_3       sy_knot         0.368054          2.68870    
+
+
+ OPTIMISATION ITERATION NO.  3 ----->
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.147614          3.17856    
+   sy_knot_2       sy_knot         0.253769          3.90977    
+   sy_knot_3       sy_knot         0.366250          2.68870    
+
+
+ OPTIMISATION ITERATION NO.  4 ----->
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.146843          3.17856    
+   sy_knot_2       sy_knot         0.254281          3.90977    
+   sy_knot_3       sy_knot         0.365764          2.68870    
+
+
+ OPTIMISATION ITERATION NO.  5 ----->
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.146819          3.17856    
+   sy_knot_2       sy_knot         0.254312          3.90977    
+   sy_knot_3       sy_knot         0.365788          2.68870    
+
+
+
+                        COMPLETION OF OPTIMISATION PROCESS
+
+ Composite sensitivities for all observations/prior info ----->
+
+ Number of observations with non-zero weight =   689
+ Parameter name    Group          Current value    Sensitivity
+   sy_knot_1       sy_knot         0.146818          3.17856    
+   sy_knot_2       sy_knot         0.254312          3.90977    
+   sy_knot_3       sy_knot         0.365788          2.68870    

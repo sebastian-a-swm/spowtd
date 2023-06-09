@@ -54,7 +54,7 @@ def load_data(
     VALUES (?, ?)""",
         generate_timestamped_rows(precip_csv, time_zone),
     )
-    del precip_csv
+    #del precip_csv
 
     # Format: Datetime, evapotranspiration (mm / h)
     et_csv = csv_mod.reader(evapotranspiration_data_file, delimiter=',')

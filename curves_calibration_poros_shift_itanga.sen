@@ -1,0 +1,132 @@
+        PARAMETER SENSITIVITIES: CASE curves_calibration_poros_shift_itanga
+
+
+ OPTIMISATION ITERATION NO.  1 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                7.40000         1.941390E-03
+   psi_s           psi_s          -2.400000E-02     0.264065    
+   ksmacz0         ksmacz0          7.30000         1.579100E-05
+   alpha           alpha            3.00000         1.071057E-05
+
+
+ OPTIMISATION ITERATION NO.  2 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                7.26963         1.979912E-03
+   psi_s           psi_s          -2.549937E-02     0.247517    
+   ksmacz0         ksmacz0          21.9000         8.909644E-05
+   alpha           alpha            2.62559         7.787521E-05
+
+
+ OPTIMISATION ITERATION NO.  3 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.58741         1.388661E-03
+   psi_s           psi_s          -8.443317E-02     8.544436E-02
+   ksmacz0         ksmacz0          65.3382         6.570669E-04
+   alpha           alpha            2.18339         7.766269E-04
+
+
+ OPTIMISATION ITERATION NO.  4 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.57235         8.622200E-04
+   psi_s           psi_s          -0.153779         4.375839E-02
+   ksmacz0         ksmacz0          83.7913         1.122645E-03
+   alpha           alpha            2.05781         1.443167E-03
+
+
+ OPTIMISATION ITERATION NO.  5 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.54985         7.496351E-04
+   psi_s           psi_s          -0.155720         3.750433E-02
+   ksmacz0         ksmacz0          251.374         1.225077E-02
+   alpha           alpha            1.46060         2.691166E-02
+
+
+ OPTIMISATION ITERATION NO.  6 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.54046         8.554439E-04
+   psi_s           psi_s          -0.142158         4.383801E-02
+   ksmacz0         ksmacz0          567.598         1.138394E-02
+   alpha           alpha            1.67254         2.137312E-02
+
+
+ OPTIMISATION ITERATION NO.  7 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.52348         9.616982E-04
+   psi_s           psi_s          -0.131489         5.007330E-02
+   ksmacz0         ksmacz0          1702.79         9.958276E-03
+   alpha           alpha            2.00178         1.616066E-02
+
+
+ OPTIMISATION ITERATION NO.  8 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.50060         9.840927E-04
+   psi_s           psi_s          -0.132058         5.109934E-02
+   ksmacz0         ksmacz0          5108.38         9.009167E-03
+   alpha           alpha            2.32813         1.340876E-02
+
+
+ OPTIMISATION ITERATION NO.  9 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.46446         9.769248E-04
+   psi_s           psi_s          -0.136221         4.971553E-02
+   ksmacz0         ksmacz0          15325.1         8.440272E-03
+   alpha           alpha            2.64332         1.196650E-02
+
+
+ OPTIMISATION ITERATION NO. 10 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.40379         9.852292E-04
+   psi_s           psi_s          -0.138897         4.946415E-02
+   ksmacz0         ksmacz0          45975.4         7.684327E-03
+   alpha           alpha            2.99294         1.043764E-02
+
+
+ OPTIMISATION ITERATION NO. 11 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                6.27822         1.000927E-03
+   psi_s           psi_s          -0.142755         4.934162E-02
+   ksmacz0         ksmacz0          137926.         7.067731E-03
+   alpha           alpha            3.34562         9.321103E-03
+
+
+ OPTIMISATION ITERATION NO. 12 ----->
+ Parameter name    Group          Current value    Sensitivity
+   b               b                5.81966         1.074249E-03
+   psi_s           psi_s          -0.153563         4.838669E-02
+   ksmacz0         ksmacz0          413779.         6.461117E-03
+   alpha           alpha            3.71510         8.306149E-03
+
+
+
+                        COMPLETION OF OPTIMISATION PROCESS
+
+ Composite sensitivities for observation group "storageobs" ----->
+
+ Number of observations with non-zero weight =   841
+ Parameter name    Group          Current value    Sensitivity
+   b               b                5.81966         1.328023E-03
+   psi_s           psi_s          -0.153563         6.558932E-02
+   ksmacz0         ksmacz0          413779.         4.138731E-14
+   alpha           alpha            3.71510          0.00000    
+
+
+
+ Composite sensitivities for observation group "timeobs" ----->
+
+ Number of observations with non-zero weight =   852
+ Parameter name    Group          Current value    Sensitivity
+   b               b                5.81966         1.495810E-03
+   psi_s           psi_s          -0.153563         7.363060E-02
+   ksmacz0         ksmacz0          413779.         1.404421E-02
+   alpha           alpha            3.71510         1.852186E-02
+
+
+
+ Composite sensitivities for all observations/prior info ----->
+
+ Number of observations with non-zero weight =  1693
+ Parameter name    Group          Current value    Sensitivity
+   b               b                5.81966         1.000927E-03
+   psi_s           psi_s          -0.153563         4.934162E-02
+   ksmacz0         ksmacz0          413779.         7.067731E-03
+   alpha           alpha            3.71510         9.321103E-03

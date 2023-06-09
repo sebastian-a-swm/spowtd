@@ -40,6 +40,16 @@ def compute_rise_offsets(cursor, reference_zeta_mm):
     ]
     assert np.isfinite(zeta_mm).all()
 
+
+    #SA! addded to cope with high rise influence
+    #cursor.execute(
+    #    """
+    #DELETE FROM water_level
+    #WHERE zeta_mm > -150"""
+    #)
+
+
+
     cursor.execute(
         """
     SELECT s.start_epoch,
@@ -93,6 +103,18 @@ def compute_rise_offsets(cursor, reference_zeta_mm):
         ), 'empty sequence'  # pylint:disable=len-as-condition
         rain_intervals.append((rain_start, rain_stop))
         zeta_intervals.append((zeta_start, zeta_thru + 1))
+
+        #SA! added: to stretch the events to 5 cm and adjust the corresponding
+        stretch = 1
+        if stretch == 1:
+            factor=(abs(final_zeta-initial_zeta))/50
+            total_depth=total_depth/factor
+            initial_zeta_original = initial_zeta
+            final_zeta_original = final_zeta
+            initial_zeta=((final_zeta_original+initial_zeta_original)/2)-25
+            final_zeta=((final_zeta_original+initial_zeta_original)/2)+25
+            print(abs(final_zeta-initial_zeta))
+
         series.append(
             (np.array((0, total_depth)), np.array((initial_zeta, final_zeta)))
         )
@@ -172,4 +194,12 @@ def compute_rise_offsets(cursor, reference_zeta_mm):
             )
             del mean_crossing_depth_mm, interval
         del discrete_zeta, crossings
+
+    # SA! addded to cope with high rise influence
+    #cursor.execute(
+    #    """
+    #DELETE FROM rising_interval_zeta
+    #WHERE zeta_number > -150"""
+    #)
+
     cursor.close()

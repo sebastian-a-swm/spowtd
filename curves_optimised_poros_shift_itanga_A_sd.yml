@@ -1,0 +1,11 @@
+specific_yield:
+  type: peatclsm
+  sd:    1.986250016159115E-001
+  theta_s: 0.88
+  b:   2.000000000000000E+001
+  psi_s:   -3.000000000000000E-001
+transmissivity:
+  type: peatclsm
+  Ksmacz0:     8.278660883278546E+003  # m/s
+  alpha:     2.070237840149245E+000  # dimensionless
+  zeta_max_cm: 32.0

@@ -1,0 +1,50 @@
+ PARAMETER STATISTICAL MATRICES: CASE curves_calibration_poros_shift_itanga
+
+ OPTIMISATION ITERATION NUMBER 12
+
+
+ Parameter standard deviations ----->
+
+ Adjustable        Group           Current          Standard
+ parameter                         value            deviation
+ b                 b                5.81966          1.38401    
+ psi_s             psi_s          -0.153563         3.180902E-02
+ ksmacz0           ksmacz0          413779.         0.470266    
+ alpha             alpha            3.71510         0.371904    
+
+ Note that if a parameter is log-transformed, the standard deviation in the 
+ above table refers to the log of the parameter. Note also that the objective
+ function used in the calculation of the covariance matrix (and eigenvalues
+ of the covariance matrix) was calculated at the end of the previous iteration.
+
+
+ Parameter covariance matrix ----->
+
+                   b          psi_s       ksmacz0       alpha    
+ b               1.915       4.3448E-02  -0.1286      -0.1155    
+ psi_s          4.3448E-02   1.0118E-03  -3.6696E-03  -3.2635E-03
+ ksmacz0       -0.1286      -3.6696E-03   0.2212       0.1743    
+ alpha         -0.1155      -3.2635E-03   0.1743       0.1383    
+
+
+ Parameter correlation coefficient matrix ----->
+
+                   b          psi_s       ksmacz0       alpha    
+ b               1.000       0.9869      -0.1976      -0.2244    
+ psi_s          0.9869        1.000      -0.2453      -0.2759    
+ ksmacz0       -0.1976      -0.2453        1.000       0.9967    
+ alpha         -0.2244      -0.2759       0.9967        1.000    
+
+
+ Normalized eigenvectors of covariance matrix ----->
+
+               Vector_1     Vector_2     Vector_3     Vector_4   
+ b             -2.1813E-02   7.8636E-03   0.1088      -0.9938    
+ psi_s          0.9959      -8.7384E-02  -4.2222E-04  -2.2598E-02
+ ksmacz0       -5.1822E-02  -0.6156       0.7821       8.1927E-02
+ alpha          7.0608E-02   0.7832       0.6136       7.1853E-02
+
+
+ Eigenvalues ----->
+
+                1.9745E-05   4.9983E-04   0.3400        1.935    

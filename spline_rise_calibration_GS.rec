@@ -1,0 +1,1716 @@
+               PEST RUN RECORD: CASE spline_rise_calibration
+
+
+ PEST Version: 17.3
+
+
+ PEST run mode:-
+
+    Parameter estimation mode
+
+
+ Case dimensions:-
+
+    Number of parameters                           :     3
+    Number of adjustable parameters                :     3
+    Number of parameter groups                     :     1
+    Number of observations                         :   691
+    Number of prior estimates                      :     0
+
+
+ Model command line(s):-
+
+    bash simulate-rise_spline.sh
+
+
+ Jacobian command line:-
+
+    na
+
+
+ Model interface files:-
+
+    Templates:
+       spline_rise_parameters.yml.tpl
+    for model input files:
+       spline_rise_parameters.yml
+
+    (Parameter values written using double precision protocol.)
+    (Decimal point always included.)
+
+    Instruction files:
+       spline_rise_observations.ins
+    for reading model output files:
+       spline_rise_observations.yml
+
+
+ PEST-to-model message file:-
+
+    na
+
+
+ Derivatives calculation:-
+
+ Param        Increment   Increment   Increment   Forward or   Multiplier  Method
+ group        type                    low bound   central      (central)   (central)
+ sy_knot      relative    1.0000E-02   none         switch       2.000     parabolic
+
+
+ Parameter definitions:-
+
+ Name         Trans-            Change       Initial        Lower          Upper
+              formation         limit        value          bound          bound
+ sy_knot_1    none              relative   0.150000       1.000000E-02    1.00000    
+ sy_knot_2    none              relative   0.300000       1.000000E-02    1.00000    
+ sy_knot_3    none              relative   0.500000       1.000000E-02    1.00000    
+
+ Name         Group          Scale         Offset        Model command number
+ sy_knot_1    sy_knot       1.00000        0.00000            1
+ sy_knot_2    sy_knot       1.00000        0.00000            1
+ sy_knot_3    sy_knot       1.00000        0.00000            1
+
+
+ Prior information:-
+
+    No prior information supplied
+
+
+ Observations:-
+
+ Observation name        Observation       Weight       Group
+  e1                     -149.912          1.000       storageobs  
+  e2                     -149.777          1.000       storageobs  
+  e3                     -149.641          1.000       storageobs  
+  e4                     -149.506          1.000       storageobs  
+  e5                     -149.371          1.000       storageobs  
+  e6                     -149.236          1.000       storageobs  
+  e7                     -149.100          1.000       storageobs  
+  e8                     -148.965          1.000       storageobs  
+  e9                     -148.830          1.000       storageobs  
+  e10                    -148.695          1.000       storageobs  
+  e11                    -148.559          1.000       storageobs  
+  e12                    -148.424          1.000       storageobs  
+  e13                    -148.289          1.000       storageobs  
+  e14                    -148.154          1.000       storageobs  
+  e15                    -148.018          1.000       storageobs  
+  e16                    -147.883          1.000       storageobs  
+  e17                    -147.748          1.000       storageobs  
+  e18                    -147.613          1.000       storageobs  
+  e19                    -147.477          1.000       storageobs  
+  e20                    -147.342          1.000       storageobs  
+  e21                    -147.207          1.000       storageobs  
+  e22                    -147.072          1.000       storageobs  
+  e23                    -146.936          1.000       storageobs  
+  e24                    -146.801          1.000       storageobs  
+  e25                    -148.212          1.000       storageobs  
+  e26                    -146.531          1.000       storageobs  
+  e27                    -144.849          1.000       storageobs  
+  e28                    -146.260          1.000       storageobs  
+  e29                    -146.125          1.000       storageobs  
+  e30                    -145.989          1.000       storageobs  
+  e31                    -145.854          1.000       storageobs  
+  e32                    -145.719          1.000       storageobs  
+  e33                    -145.584          1.000       storageobs  
+  e34                    -145.448          1.000       storageobs  
+  e35                    -145.313          1.000       storageobs  
+  e36                    -145.178          1.000       storageobs  
+  e37                    -145.043          1.000       storageobs  
+  e38                    -144.907          1.000       storageobs  
+  e39                    -144.772          1.000       storageobs  
+  e40                    -144.637          1.000       storageobs  
+  e41                    -144.502          1.000       storageobs  
+  e42                    -144.366          1.000       storageobs  
+  e43                    -144.231          1.000       storageobs  
+  e44                    -144.096          1.000       storageobs  
+  e45                    -143.961          1.000       storageobs  
+  e46                    -143.825          1.000       storageobs  
+  e47                    -143.690          1.000       storageobs  
+  e48                    -143.555          1.000       storageobs  
+  e49                    -143.420          1.000       storageobs  
+  e50                    -143.284          1.000       storageobs  
+  e51                    -143.149          1.000       storageobs  
+  e52                    -143.014          1.000       storageobs  
+  e53                    -142.879          1.000       storageobs  
+  e54                    -142.743          1.000       storageobs  
+  e55                    -142.608          1.000       storageobs  
+  e56                    -142.473          1.000       storageobs  
+  e57                    -142.337          1.000       storageobs  
+  e58                    -146.594          1.000       storageobs  
+  e59                    -146.399          1.000       storageobs  
+  e60                    -146.536          1.000       storageobs  
+  e61                    -146.313          1.000       storageobs  
+  e62                    -146.091          1.000       storageobs  
+  e63                    -145.868          1.000       storageobs  
+  e64                    -142.769          1.000       storageobs  
+  e65                    -142.573          1.000       storageobs  
+  e66                    -142.377          1.000       storageobs  
+  e67                    -142.181          1.000       storageobs  
+  e68                    -141.985          1.000       storageobs  
+  e69                    -141.789          1.000       storageobs  
+  e70                    -141.593          1.000       storageobs  
+  e71                    -142.885          1.000       storageobs  
+  e72                    -142.657          1.000       storageobs  
+  e73                    -142.429          1.000       storageobs  
+  e74                    -142.201          1.000       storageobs  
+  e75                    -141.972          1.000       storageobs  
+  e76                    -141.744          1.000       storageobs  
+  e77                    -141.516          1.000       storageobs  
+  e78                    -141.287          1.000       storageobs  
+  e79                    -141.059          1.000       storageobs  
+  e80                    -140.831          1.000       storageobs  
+  e81                    -140.602          1.000       storageobs  
+  e82                    -140.374          1.000       storageobs  
+  e83                    -140.146          1.000       storageobs  
+  e84                    -139.918          1.000       storageobs  
+  e85                    -139.689          1.000       storageobs  
+  e86                    -139.461          1.000       storageobs  
+  e87                    -139.233          1.000       storageobs  
+  e88                    -139.004          1.000       storageobs  
+  e89                    -138.776          1.000       storageobs  
+  e90                    -138.548          1.000       storageobs  
+  e91                    -138.320          1.000       storageobs  
+  e92                    -138.091          1.000       storageobs  
+  e93                    -137.863          1.000       storageobs  
+  e94                    -137.635          1.000       storageobs  
+  e95                    -137.406          1.000       storageobs  
+  e96                    -137.178          1.000       storageobs  
+  e97                    -136.950          1.000       storageobs  
+  e98                    -138.221          1.000       storageobs  
+  e99                    -137.903          1.000       storageobs  
+  e100                   -137.505          1.000       storageobs  
+  e101                   -137.154          1.000       storageobs  
+  e102                   -136.803          1.000       storageobs  
+  e103                   -136.452          1.000       storageobs  
+  e104                   -136.102          1.000       storageobs  
+  e105                   -135.751          1.000       storageobs  
+  e106                   -135.400          1.000       storageobs  
+  e107                   -135.050          1.000       storageobs  
+  e108                   -134.699          1.000       storageobs  
+  e109                   -134.348          1.000       storageobs  
+  e110                   -132.786          1.000       storageobs  
+  e111                   -132.474          1.000       storageobs  
+  e112                   -132.161          1.000       storageobs  
+  e113                   -131.849          1.000       storageobs  
+  e114                   -131.536          1.000       storageobs  
+  e115                   -131.224          1.000       storageobs  
+  e116                   -130.911          1.000       storageobs  
+  e117                   -130.599          1.000       storageobs  
+  e118                   -129.764          1.000       storageobs  
+  e119                   -129.479          1.000       storageobs  
+  e120                   -129.195          1.000       storageobs  
+  e121                   -128.910          1.000       storageobs  
+  e122                   -128.625          1.000       storageobs  
+  e123                   -128.340          1.000       storageobs  
+  e124                   -128.055          1.000       storageobs  
+  e125                   -127.770          1.000       storageobs  
+  e126                   -127.485          1.000       storageobs  
+  e127                   -128.625          1.000       storageobs  
+  e128                   -128.098          1.000       storageobs  
+  e129                   -127.571          1.000       storageobs  
+  e130                   -127.043          1.000       storageobs  
+  e131                   -126.516          1.000       storageobs  
+  e132                   -125.988          1.000       storageobs  
+  e133                   -125.461          1.000       storageobs  
+  e134                   -124.934          1.000       storageobs  
+  e135                   -124.406          1.000       storageobs  
+  e136                   -123.879          1.000       storageobs  
+  e137                   -124.697          1.000       storageobs  
+  e138                   -124.216          1.000       storageobs  
+  e139                   -125.801          1.000       storageobs  
+  e140                   -127.325          1.000       storageobs  
+  e141                   -126.903          1.000       storageobs  
+  e142                   -126.482          1.000       storageobs  
+  e143                   -127.340          1.000       storageobs  
+  e144                   -126.954          1.000       storageobs  
+  e145                   -126.569          1.000       storageobs  
+  e146                   -126.183          1.000       storageobs  
+  e147                   -125.798          1.000       storageobs  
+  e148                   -125.412          1.000       storageobs  
+  e149                   -124.895          1.000       storageobs  
+  e150                   -124.534          1.000       storageobs  
+  e151                   -124.173          1.000       storageobs  
+  e152                   -123.812          1.000       storageobs  
+  e153                   -123.002          1.000       storageobs  
+  e154                   -123.745          1.000       storageobs  
+  e155                   -123.564          1.000       storageobs  
+  e156                   -123.383          1.000       storageobs  
+  e157                   -123.203          1.000       storageobs  
+  e158                   -123.022          1.000       storageobs  
+  e159                   -122.841          1.000       storageobs  
+  e160                   -122.660          1.000       storageobs  
+  e161                   -122.479          1.000       storageobs  
+  e162                   -122.298          1.000       storageobs  
+  e163                   -122.481          1.000       storageobs  
+  e164                   -121.974          1.000       storageobs  
+  e165                   -121.764          1.000       storageobs  
+  e166                   -121.245          1.000       storageobs  
+  e167                   -121.030          1.000       storageobs  
+  e168                   -120.814          1.000       storageobs  
+  e169                   -120.599          1.000       storageobs  
+  e170                   -120.383          1.000       storageobs  
+  e171                   -120.168          1.000       storageobs  
+  e172                   -120.069          1.000       storageobs  
+  e173                   -119.886          1.000       storageobs  
+  e174                   -119.704          1.000       storageobs  
+  e175                   -119.521          1.000       storageobs  
+  e176                   -119.339          1.000       storageobs  
+  e177                   -119.156          1.000       storageobs  
+  e178                   -118.974          1.000       storageobs  
+  e179                   -118.791          1.000       storageobs  
+  e180                   -118.609          1.000       storageobs  
+  e181                   -118.427          1.000       storageobs  
+  e182                   -118.716          1.000       storageobs  
+  e183                   -118.582          1.000       storageobs  
+  e184                   -118.447          1.000       storageobs  
+  e185                   -118.240          1.000       storageobs  
+  e186                   -118.113          1.000       storageobs  
+  e187                   -117.986          1.000       storageobs  
+  e188                   -117.858          1.000       storageobs  
+  e189                   -117.731          1.000       storageobs  
+  e190                   -117.603          1.000       storageobs  
+  e191                   -117.476          1.000       storageobs  
+  e192                   -117.349          1.000       storageobs  
+  e193                   -117.221          1.000       storageobs  
+  e194                   -117.226          1.000       storageobs  
+  e195                   -117.107          1.000       storageobs  
+  e196                   -116.988          1.000       storageobs  
+  e197                   -116.869          1.000       storageobs  
+  e198                   -116.750          1.000       storageobs  
+  e199                   -116.631          1.000       storageobs  
+  e200                   -116.512          1.000       storageobs  
+  e201                   -116.393          1.000       storageobs  
+  e202                   -116.274          1.000       storageobs  
+  e203                   -116.155          1.000       storageobs  
+  e204                   -116.036          1.000       storageobs  
+  e205                   -115.917          1.000       storageobs  
+  e206                   -115.798          1.000       storageobs  
+  e207                   -115.679          1.000       storageobs  
+  e208                   -115.560          1.000       storageobs  
+  e209                   -115.441          1.000       storageobs  
+  e210                   -115.322          1.000       storageobs  
+  e211                   -114.937          1.000       storageobs  
+  e212                   -114.815          1.000       storageobs  
+  e213                   -114.693          1.000       storageobs  
+  e214                   -114.571          1.000       storageobs  
+  e215                   -114.449          1.000       storageobs  
+  e216                   -114.327          1.000       storageobs  
+  e217                   -114.204          1.000       storageobs  
+  e218                   -114.082          1.000       storageobs  
+  e219                   -113.960          1.000       storageobs  
+  e220                   -113.838          1.000       storageobs  
+  e221                   -113.426          1.000       storageobs  
+  e222                   -113.295          1.000       storageobs  
+  e223                   -113.836          1.000       storageobs  
+  e224                   -117.069          1.000       storageobs  
+  e225                   -117.363          1.000       storageobs  
+  e226                   -117.088          1.000       storageobs  
+  e227                   -116.812          1.000       storageobs  
+  e228                   -116.537          1.000       storageobs  
+  e229                   -116.261          1.000       storageobs  
+  e230                   -116.351          1.000       storageobs  
+  e231                   -116.396          1.000       storageobs  
+  e232                   -116.791          1.000       storageobs  
+  e233                   -116.494          1.000       storageobs  
+  e234                   -116.198          1.000       storageobs  
+  e235                   -115.901          1.000       storageobs  
+  e236                   -115.707          1.000       storageobs  
+  e237                   -115.387          1.000       storageobs  
+  e238                   -115.066          1.000       storageobs  
+  e239                   -114.746          1.000       storageobs  
+  e240                   -114.425          1.000       storageobs  
+  e241                   -114.105          1.000       storageobs  
+  e242                   -113.784          1.000       storageobs  
+  e243                   -113.464          1.000       storageobs  
+  e244                   -113.144          1.000       storageobs  
+  e245                   -113.577          1.000       storageobs  
+  e246                   -115.475          1.000       storageobs  
+  e247                   -115.217          1.000       storageobs  
+  e248                   -117.565          1.000       storageobs  
+  e249                   -116.522          1.000       storageobs  
+  e250                   -115.479          1.000       storageobs  
+  e251                   -114.436          1.000       storageobs  
+  e252                   -113.393          1.000       storageobs  
+  e253                   -112.349          1.000       storageobs  
+  e254                   -111.306          1.000       storageobs  
+  e255                   -113.655          1.000       storageobs  
+  e256                   -113.460          1.000       storageobs  
+  e257                   -113.265          1.000       storageobs  
+  e258                   -113.069          1.000       storageobs  
+  e259                   -112.874          1.000       storageobs  
+  e260                   -112.679          1.000       storageobs  
+  e261                   -112.484          1.000       storageobs  
+  e262                   -112.289          1.000       storageobs  
+  e263                   -112.093          1.000       storageobs  
+  e264                   -111.898          1.000       storageobs  
+  e265                   -111.703          1.000       storageobs  
+  e266                   -111.508          1.000       storageobs  
+  e267                   -111.313          1.000       storageobs  
+  e268                   -111.714          1.000       storageobs  
+  e269                   -110.922          1.000       storageobs  
+  e270                   -110.130          1.000       storageobs  
+  e271                   -110.015          1.000       storageobs  
+  e272                   -110.460          1.000       storageobs  
+  e273                   -110.450          1.000       storageobs  
+  e274                   -111.666          1.000       storageobs  
+  e275                   -111.408          1.000       storageobs  
+  e276                   -111.150          1.000       storageobs  
+  e277                   -111.086          1.000       storageobs  
+  e278                   -110.887          1.000       storageobs  
+  e279                   -110.786          1.000       storageobs  
+  e280                   -110.580          1.000       storageobs  
+  e281                   -110.374          1.000       storageobs  
+  e282                   -110.168          1.000       storageobs  
+  e283                   -109.961          1.000       storageobs  
+  e284                   -109.755          1.000       storageobs  
+  e285                   -109.549          1.000       storageobs  
+  e286                   -109.343          1.000       storageobs  
+  e287                   -109.136          1.000       storageobs  
+  e288                   -108.930          1.000       storageobs  
+  e289                   -108.724          1.000       storageobs  
+  e290                   -108.518          1.000       storageobs  
+  e291                   -108.311          1.000       storageobs  
+  e292                   -108.105          1.000       storageobs  
+  e293                   -107.858          1.000       storageobs  
+  e294                   -107.663          1.000       storageobs  
+  e295                   -107.468          1.000       storageobs  
+  e296                   -107.964          1.000       storageobs  
+  e297                   -107.986          1.000       storageobs  
+  e298                   -107.810          1.000       storageobs  
+  e299                   -107.634          1.000       storageobs  
+  e300                   -107.458          1.000       storageobs  
+  e301                   -107.282          1.000       storageobs  
+  e302                   -107.105          1.000       storageobs  
+  e303                   -106.929          1.000       storageobs  
+  e304                   -106.753          1.000       storageobs  
+  e305                   -106.577          1.000       storageobs  
+  e306                   -106.401          1.000       storageobs  
+  e307                   -106.225          1.000       storageobs  
+  e308                   -105.616          1.000       storageobs  
+  e309                   -105.454          1.000       storageobs  
+  e310                   -105.291          1.000       storageobs  
+  e311                   -105.128          1.000       storageobs  
+  e312                   -104.965          1.000       storageobs  
+  e313                   -104.802          1.000       storageobs  
+  e314                   -104.640          1.000       storageobs  
+  e315                   -107.223          1.000       storageobs  
+  e316                   -107.901          1.000       storageobs  
+  e317                   -107.843          1.000       storageobs  
+  e318                   -107.579          1.000       storageobs  
+  e319                   -107.315          1.000       storageobs  
+  e320                   -107.051          1.000       storageobs  
+  e321                   -106.787          1.000       storageobs  
+  e322                   -106.936          1.000       storageobs  
+  e323                   -106.559          1.000       storageobs  
+  e324                   -106.150          1.000       storageobs  
+  e325                   -105.872          1.000       storageobs  
+  e326                   -105.499          1.000       storageobs  
+  e327                   -105.232          1.000       storageobs  
+  e328                   -104.965          1.000       storageobs  
+  e329                   -104.698          1.000       storageobs  
+  e330                   -106.901          1.000       storageobs  
+  e331                   -108.674          1.000       storageobs  
+  e332                   -108.262          1.000       storageobs  
+  e333                   -107.907          1.000       storageobs  
+  e334                   -107.552          1.000       storageobs  
+  e335                   -107.198          1.000       storageobs  
+  e336                   -106.843          1.000       storageobs  
+  e337                   -106.488          1.000       storageobs  
+  e338                   -106.133          1.000       storageobs  
+  e339                   -105.698          1.000       storageobs  
+  e340                   -105.060          1.000       storageobs  
+  e341                   -104.732          1.000       storageobs  
+  e342                   -104.235          1.000       storageobs  
+  e343                   -103.919          1.000       storageobs  
+  e344                   -103.603          1.000       storageobs  
+  e345                   -103.286          1.000       storageobs  
+  e346                   -102.970          1.000       storageobs  
+  e347                   -102.654          1.000       storageobs  
+  e348                   -102.312          1.000       storageobs  
+  e349                   -101.985          1.000       storageobs  
+  e350                   -101.808          1.000       storageobs  
+  e351                   -101.483          1.000       storageobs  
+  e352                   -101.158          1.000       storageobs  
+  e353                   -100.834          1.000       storageobs  
+  e354                   -100.509          1.000       storageobs  
+  e355                   -100.184          1.000       storageobs  
+  e356                   -99.8598          1.000       storageobs  
+  e357                   -99.5351          1.000       storageobs  
+  e358                   -99.2261          1.000       storageobs  
+  e359                   -98.7234          1.000       storageobs  
+  e360                   -98.4051          1.000       storageobs  
+  e361                   -98.0868          1.000       storageobs  
+  e362                   -97.7540          1.000       storageobs  
+  e363                   -97.4327          1.000       storageobs  
+  e364                   -97.1115          1.000       storageobs  
+  e365                   -96.7902          1.000       storageobs  
+  e366                   -96.5967          1.000       storageobs  
+  e367                   -96.2803          1.000       storageobs  
+  e368                   -95.9639          1.000       storageobs  
+  e369                   -96.0876          1.000       storageobs  
+  e370                   -95.7410          1.000       storageobs  
+  e371                   -95.3945          1.000       storageobs  
+  e372                   -95.0479          1.000       storageobs  
+  e373                   -97.0345          1.000       storageobs  
+  e374                   -96.7916          1.000       storageobs  
+  e375                   -96.6894          1.000       storageobs  
+  e376                   -96.4503          1.000       storageobs  
+  e377                   -97.8278          1.000       storageobs  
+  e378                   -97.6372          1.000       storageobs  
+  e379                   -97.4467          1.000       storageobs  
+  e380                   -97.2561          1.000       storageobs  
+  e381                   -97.0656          1.000       storageobs  
+  e382                   -97.6233          1.000       storageobs  
+  e383                   -97.0389          1.000       storageobs  
+  e384                   -96.0281          1.000       storageobs  
+  e385                   -96.3775          1.000       storageobs  
+  e386                   -96.2431          1.000       storageobs  
+  e387                   -96.1086          1.000       storageobs  
+  e388                   -95.9741          1.000       storageobs  
+  e389                   -95.8396          1.000       storageobs  
+  e390                   -95.7052          1.000       storageobs  
+  e391                   -95.5707          1.000       storageobs  
+  e392                   -95.4362          1.000       storageobs  
+  e393                   -95.3018          1.000       storageobs  
+  e394                   -95.0058          1.000       storageobs  
+  e395                   -94.8761          1.000       storageobs  
+  e396                   -94.7142          1.000       storageobs  
+  e397                   -94.5870          1.000       storageobs  
+  e398                   -94.3933          1.000       storageobs  
+  e399                   -94.2710          1.000       storageobs  
+  e400                   -94.1487          1.000       storageobs  
+  e401                   -93.8808          1.000       storageobs  
+  e402                   -93.7593          1.000       storageobs  
+  e403                   -93.6377          1.000       storageobs  
+  e404                   -93.5161          1.000       storageobs  
+  e405                   -93.7965          1.000       storageobs  
+  e406                   -93.6893          1.000       storageobs  
+  e407                   -93.5821          1.000       storageobs  
+  e408                   -93.4749          1.000       storageobs  
+  e409                   -93.3623          1.000       storageobs  
+  e410                   -94.3947          1.000       storageobs  
+  e411                   -93.5460          1.000       storageobs  
+  e412                   -93.1667          1.000       storageobs  
+  e413                   -92.3363          1.000       storageobs  
+  e414                   -93.8354          1.000       storageobs  
+  e415                   -93.6168          1.000       storageobs  
+  e416                   -93.1640          1.000       storageobs  
+  e417                   -93.0843          1.000       storageobs  
+  e418                   -92.9218          1.000       storageobs  
+  e419                   -92.7128          1.000       storageobs  
+  e420                   -92.5037          1.000       storageobs  
+  e421                   -93.9548          1.000       storageobs  
+  e422                   -93.6647          1.000       storageobs  
+  e423                   -93.3747          1.000       storageobs  
+  e424                   -93.0846          1.000       storageobs  
+  e425                   -92.7728          1.000       storageobs  
+  e426                   -92.5969          1.000       storageobs  
+  e427                   -92.2924          1.000       storageobs  
+  e428                   -91.4606          1.000       storageobs  
+  e429                   -91.6634          1.000       storageobs  
+  e430                   -91.4303          1.000       storageobs  
+  e431                   -91.1973          1.000       storageobs  
+  e432                   -91.1487          1.000       storageobs  
+  e433                   -90.9088          1.000       storageobs  
+  e434                   -91.1462          1.000       storageobs  
+  e435                   -90.8923          1.000       storageobs  
+  e436                   -90.8145          1.000       storageobs  
+  e437                   -90.9954          1.000       storageobs  
+  e438                   -91.0921          1.000       storageobs  
+  e439                   -90.8559          1.000       storageobs  
+  e440                   -90.6197          1.000       storageobs  
+  e441                   -90.4461          1.000       storageobs  
+  e442                   -89.9560          1.000       storageobs  
+  e443                   -90.4240          1.000       storageobs  
+  e444                   -90.1093          1.000       storageobs  
+  e445                   -89.7946          1.000       storageobs  
+  e446                   -89.4799          1.000       storageobs  
+  e447                   -89.2780          1.000       storageobs  
+  e448                   -88.9342          1.000       storageobs  
+  e449                   -88.8999          1.000       storageobs  
+  e450                   -88.4211          1.000       storageobs  
+  e451                   -88.0741          1.000       storageobs  
+  e452                   -87.7444          1.000       storageobs  
+  e453                   -87.3406          1.000       storageobs  
+  e454                   -86.7657          1.000       storageobs  
+  e455                   -86.2072          1.000       storageobs  
+  e456                   -86.2089          1.000       storageobs  
+  e457                   -85.9278          1.000       storageobs  
+  e458                   -85.6052          1.000       storageobs  
+  e459                   -85.6286          1.000       storageobs  
+  e460                   -85.1916          1.000       storageobs  
+  e461                   -84.7545          1.000       storageobs  
+  e462                   -84.3175          1.000       storageobs  
+  e463                   -83.7010          1.000       storageobs  
+  e464                   -83.3072          1.000       storageobs  
+  e465                   -82.8447          1.000       storageobs  
+  e466                   -83.1896          1.000       storageobs  
+  e467                   -82.9749          1.000       storageobs  
+  e468                   -82.3352          1.000       storageobs  
+  e469                   -81.9100          1.000       storageobs  
+  e470                   -81.4849          1.000       storageobs  
+  e471                   -81.3017          1.000       storageobs  
+  e472                   -80.5467          1.000       storageobs  
+  e473                   -79.7145          1.000       storageobs  
+  e474                   -79.8304          1.000       storageobs  
+  e475                   -80.0158          1.000       storageobs  
+  e476                   -79.4571          1.000       storageobs  
+  e477                   -79.3621          1.000       storageobs  
+  e478                   -78.6362          1.000       storageobs  
+  e479                   -77.8016          1.000       storageobs  
+  e480                   -77.3321          1.000       storageobs  
+  e481                   -76.6411          1.000       storageobs  
+  e482                   -76.8018          1.000       storageobs  
+  e483                   -76.5863          1.000       storageobs  
+  e484                   -76.2264          1.000       storageobs  
+  e485                   -75.9001          1.000       storageobs  
+  e486                   -75.4703          1.000       storageobs  
+  e487                   -75.0732          1.000       storageobs  
+  e488                   -74.5382          1.000       storageobs  
+  e489                   -74.1487          1.000       storageobs  
+  e490                   -73.7740          1.000       storageobs  
+  e491                   -73.3848          1.000       storageobs  
+  e492                   -72.6103          1.000       storageobs  
+  e493                   -71.2641          1.000       storageobs  
+  e494                   -70.6745          1.000       storageobs  
+  e495                   -70.2190          1.000       storageobs  
+  e496                   -69.7635          1.000       storageobs  
+  e497                   -69.8283          1.000       storageobs  
+  e498                   -69.0442          1.000       storageobs  
+  e499                   -68.9070          1.000       storageobs  
+  e500                   -68.4301          1.000       storageobs  
+  e501                   -67.9532          1.000       storageobs  
+  e502                   -67.4763          1.000       storageobs  
+  e503                   -67.7202          1.000       storageobs  
+  e504                   -68.5883          1.000       storageobs  
+  e505                   -68.0251          1.000       storageobs  
+  e506                   -67.4619          1.000       storageobs  
+  e507                   -68.0759          1.000       storageobs  
+  e508                   -67.8045          1.000       storageobs  
+  e509                   -68.5275          1.000       storageobs  
+  e510                   -67.4620          1.000       storageobs  
+  e511                   -65.6693          1.000       storageobs  
+  e512                   -64.8602          1.000       storageobs  
+  e513                   -63.8877          1.000       storageobs  
+  e514                   -62.9152          1.000       storageobs  
+  e515                   -61.2524          1.000       storageobs  
+  e516                   -59.7587          1.000       storageobs  
+  e517                   -58.8962          1.000       storageobs  
+  e518                   -58.0336          1.000       storageobs  
+  e519                   -58.7663          1.000       storageobs  
+  e520                   -58.8349          1.000       storageobs  
+  e521                   -58.8889          1.000       storageobs  
+  e522                   -57.7413          1.000       storageobs  
+  e523                   -56.6132          1.000       storageobs  
+  e524                   -56.4336          1.000       storageobs  
+  e525                   -56.6951          1.000       storageobs  
+  e526                   -58.9871          1.000       storageobs  
+  e527                   -57.8055          1.000       storageobs  
+  e528                   -57.0341          1.000       storageobs  
+  e529                   -58.5595          1.000       storageobs  
+  e530                   -55.3977          1.000       storageobs  
+  e531                   -54.6946          1.000       storageobs  
+  e532                   -52.8736          1.000       storageobs  
+  e533                   -50.6823          1.000       storageobs  
+  e534                   -48.8132          1.000       storageobs  
+  e535                   -50.8986          1.000       storageobs  
+  e536                   -53.4573          1.000       storageobs  
+  e537                   -51.0849          1.000       storageobs  
+  e538                   -47.3843          1.000       storageobs  
+  e539                   -48.1081          1.000       storageobs  
+  e540                   -44.8762          1.000       storageobs  
+  e541                   -50.1716          1.000       storageobs  
+  e542                   -48.1095          1.000       storageobs  
+  e543                   -47.3900          1.000       storageobs  
+  e544                   -46.2375          1.000       storageobs  
+  e545                   -45.8390          1.000       storageobs  
+  e546                   -44.9378          1.000       storageobs  
+  e547                   -44.1188          1.000       storageobs  
+  e548                   -43.1970          1.000       storageobs  
+  e549                   -43.3064          1.000       storageobs  
+  e550                   -43.8804          1.000       storageobs  
+  e551                   -42.2712          1.000       storageobs  
+  e552                   -41.2652          1.000       storageobs  
+  e553                   -41.5528          1.000       storageobs  
+  e554                   -43.1451          1.000       storageobs  
+  e555                   -43.6338          1.000       storageobs  
+  e556                   -43.0731          1.000       storageobs  
+  e557                   -42.5125          1.000       storageobs  
+  e558                   -41.9519          1.000       storageobs  
+  e559                   -41.3913          1.000       storageobs  
+  e560                   -41.8303          1.000       storageobs  
+  e561                   -43.5904          1.000       storageobs  
+  e562                   -42.5954          1.000       storageobs  
+  e563                   -41.6005          1.000       storageobs  
+  e564                   -40.6055          1.000       storageobs  
+  e565                   -38.5774          1.000       storageobs  
+  e566                   -37.4558          1.000       storageobs  
+  e567                   -36.3342          1.000       storageobs  
+  e568                   -36.2385          1.000       storageobs  
+  e569                   -35.1093          1.000       storageobs  
+  e570                   -39.3524          1.000       storageobs  
+  e571                   -37.5310          1.000       storageobs  
+  e572                   -40.4265          1.000       storageobs  
+  e573                   -37.8725          1.000       storageobs  
+  e574                   -35.3185          1.000       storageobs  
+  e575                   -38.8423          1.000       storageobs  
+  e576                   -37.6768          1.000       storageobs  
+  e577                   -35.8946          1.000       storageobs  
+  e578                   -34.0434          1.000       storageobs  
+  e579                   -32.1922          1.000       storageobs  
+  e580                   -31.7550          1.000       storageobs  
+  e581                   -30.3462          1.000       storageobs  
+  e582                   -28.4334          1.000       storageobs  
+  e583                   -26.5206          1.000       storageobs  
+  e584                   -25.4460          1.000       storageobs  
+  e585                   -23.6579          1.000       storageobs  
+  e586                   -21.8698          1.000       storageobs  
+  e587                   -20.0817          1.000       storageobs  
+  e588                   -30.0045          1.000       storageobs  
+  e589                   -30.4446          1.000       storageobs  
+  e590                   -29.5334          1.000       storageobs  
+  e591                   -31.5545          1.000       storageobs  
+  e592                   -24.9490          1.000       storageobs  
+  e593                   -26.9702          1.000       storageobs  
+  e594                   -26.1158          1.000       storageobs  
+  e595                   -25.2614          1.000       storageobs  
+  e596                   -24.4070          1.000       storageobs  
+  e597                   -36.3111          1.000       storageobs  
+  e598                   -32.4711          1.000       storageobs  
+  e599                   -26.0248          1.000       storageobs  
+  e600                   -21.4526          1.000       storageobs  
+  e601                   -26.8046          1.000       storageobs  
+  e602                   -29.6257          1.000       storageobs  
+  e603                   -28.7508          1.000       storageobs  
+  e604                   -27.9694          1.000       storageobs  
+  e605                   -27.1881          1.000       storageobs  
+  e606                   -27.3966          1.000       storageobs  
+  e607                   -27.7557          1.000       storageobs  
+  e608                   -29.8360          1.000       storageobs  
+  e609                   -28.7420          1.000       storageobs  
+  e610                   -27.5641          1.000       storageobs  
+  e611                   -25.4744          1.000       storageobs  
+  e612                   -24.5619          1.000       storageobs  
+  e613                   -23.7047          1.000       storageobs  
+  e614                   -22.8475          1.000       storageobs  
+  e615                   -21.9903          1.000       storageobs  
+  e616                   -21.1330          1.000       storageobs  
+  e617                   -20.2758          1.000       storageobs  
+  e618                   -21.3613          1.000       storageobs  
+  e619                   -20.7173          1.000       storageobs  
+  e620                   -20.0734          1.000       storageobs  
+  e621                   -19.4294          1.000       storageobs  
+  e622                   -18.7855          1.000       storageobs  
+  e623                   -17.8528          1.000       storageobs  
+  e624                   -17.1694          1.000       storageobs  
+  e625                   -16.4861          1.000       storageobs  
+  e626                   -19.3009          1.000       storageobs  
+  e627                   -18.2658          1.000       storageobs  
+  e628                   -17.2308          1.000       storageobs  
+  e629                   -16.5262          1.000       storageobs  
+  e630                   -17.2057          1.000       storageobs  
+  e631                   -15.5783          1.000       storageobs  
+  e632                   -13.9509          1.000       storageobs  
+  e633                   -15.0460          1.000       storageobs  
+  e634                   -13.7675          1.000       storageobs  
+  e635                   -12.7136          1.000       storageobs  
+  e636                   -13.8109          1.000       storageobs  
+  e637                   -18.6799          1.000       storageobs  
+  e638                   -16.9820          1.000       storageobs  
+  e639                   -15.2841          1.000       storageobs  
+  e640                   -15.3772          1.000       storageobs  
+  e641                   -13.7200          1.000       storageobs  
+  e642                   -15.7126          1.000       storageobs  
+  e643                   -14.3906          1.000       storageobs  
+  e644                   -15.3903          1.000       storageobs  
+  e645                   -17.3376          1.000       storageobs  
+  e646                   -16.3669          1.000       storageobs  
+  e647                   -15.3962          1.000       storageobs  
+  e648                   -14.5594          1.000       storageobs  
+  e649                   -13.4638          1.000       storageobs  
+  e650                   -12.3683          1.000       storageobs  
+  e651                   -11.2727          1.000       storageobs  
+  e652                   -10.1772          1.000       storageobs  
+  e653                   -9.35968          1.000       storageobs  
+  e654                   -8.37114          1.000       storageobs  
+  e655                   -7.03240          1.000       storageobs  
+  e656                   -9.25579          1.000       storageobs  
+  e657                   -8.68463          1.000       storageobs  
+  e658                   -8.41663          1.000       storageobs  
+  e659                   -7.86699          1.000       storageobs  
+  e660                   -7.31735          1.000       storageobs  
+  e661                   -8.48763          1.000       storageobs  
+  e662                   -8.08190          1.000       storageobs  
+  e663                   -7.67617          1.000       storageobs  
+  e664                   -7.27044          1.000       storageobs  
+  e665                   -8.95687          1.000       storageobs  
+  e666                   -8.65316          1.000       storageobs  
+  e667                   -7.84291          1.000       storageobs  
+  e668                   -7.03266          1.000       storageobs  
+  e669                   -6.22241          1.000       storageobs  
+  e670                   -5.91048          1.000       storageobs  
+  e671                   -5.29956          1.000       storageobs  
+  e672                   -5.76153          1.000       storageobs  
+  e673                   -5.13174          1.000       storageobs  
+  e674                   -4.50195          1.000       storageobs  
+  e675                   -5.14030          1.000       storageobs  
+  e676                   -3.66508          1.000       storageobs  
+  e677                   -2.18987          1.000       storageobs  
+  e678                  -0.714652          1.000       storageobs  
+  e679                   -1.35300          1.000       storageobs  
+  e680                  -0.532430          1.000       storageobs  
+  e681                   0.154050          1.000       storageobs  
+  e682                   0.840531          1.000       storageobs  
+  e683                    1.52701          1.000       storageobs  
+  e684                   -1.08622          1.000       storageobs  
+  e685                  -0.713934          1.000       storageobs  
+  e686                  -0.341650          1.000       storageobs  
+  e687                   3.063305E-02      1.000       storageobs  
+  e688                  -0.962570          1.000       storageobs  
+  e689                  -0.641713          1.000       storageobs  
+  e690                  -0.320857          1.000       storageobs  
+  e691                    0.00000          1.000       storageobs  
+
+
+ Control settings:-
+
+    Initial lambda                                               :  5.0000    
+    Lambda adjustment factor                                     :  2.0000    
+    Sufficient new/old phi ratio per optimisation iteration      : 0.30000    
+    Limiting relative phi reduction between lambdas              : 3.00000E-02
+    Maximum trial lambdas per iteration                          :  10
+    Forgive model run failure during lamda testing               : no
+    Forgive model run failure during Jacobian runs               : no
+
+    Perform Broyden's update of Jacobian matrix                  : no
+    Undertake observation re-referencing                         : no
+
+    Maximum  factor  parameter change (factor-limited changes)   : na
+    Maximum relative parameter change (relative-limited changes) :  3.0000
+    Fraction of initial parameter values used in computing
+    change limit for near-zero parameters                        : 1.00000E-03
+    Allow bending of parameter upgrade vector                    : no
+    Allow parameters to stick to their bounds                    : no
+
+    Relative phi reduction below which to begin use of
+    central derivatives                                          : 0.10000             
+    Iteration at which to first consider derivatives switch      :   1
+
+    Relative phi reduction indicating convergence                : 0.10000E-01
+    Number of phi values required within this range              :   4
+    Maximum number of consecutive failures to lower phi          :   3
+    Minimal relative parameter change indicating convergence     : 0.10000E-01
+    Number of consecutive iterations with minimal param change   :   3
+    Maximum number of optimisation iterations                    :  30
+
+    Attempt automatic user intervention                          : no
+
+    Attempt reuse of parameter sensitivities                     : no
+
+    Scale parameters by their bounds                             : no
+
+
+ File saving options: -
+
+    Save best JCO file                                           : yes
+    Save multiple JCO files                                      : no
+    Save multiple REI files                                      : no
+    Save multiple PAR files                                      : no
+
+
+                             OPTIMISATION RECORD
+
+
+ INITIAL CONDITIONS: 
+    Sum of squared weighted residuals (ie phi) =  1.17291E+05
+
+       Current parameter values
+       sy_knot_1       0.150000    
+       sy_knot_2       0.300000    
+       sy_knot_3       0.500000    
+
+
+ OPTIMISATION ITERATION NO.        : 1
+    Model calls so far             : 1
+    Starting phi for this iteration:  1.17291E+05
+
+        Lambda =   5.0000     ----->
+           Phi =   87486.      (  0.746 of starting phi)
+
+        Lambda =   2.5000     ----->
+           Phi =   78852.      (  0.672 of starting phi)
+
+        Lambda =   1.2500     ----->
+           Phi =   69882.      (  0.596 of starting phi)
+
+        Lambda =  0.62500     ----->
+           Phi =   63996.      (  0.546 of starting phi)
+
+        Lambda =  0.31250     ----->
+           Phi =   61445.      (  0.524 of starting phi)
+
+        Lambda =  0.15625     ----->
+           Phi =   60599.      (  0.517 of starting phi)
+
+    No more lambdas: relative phi reduction between lambdas less than 0.0300
+    Lowest phi this iteration:   60599.    
+
+       Current parameter values                 Previous parameter values
+       sy_knot_1       0.155640                 sy_knot_1        0.150000    
+       sy_knot_2       0.234005                 sy_knot_2        0.300000    
+       sy_knot_3       0.368232                 sy_knot_3        0.500000    
+    Maximum relative change: 0.2635     ["sy_knot_3"]
+
+
+ OPTIMISATION ITERATION NO.        : 2
+    Model calls so far             : 10
+    Starting phi for this iteration:   60599.    
+
+        Lambda =  7.81250E-02 ----->
+           Phi =   60268.      (  0.995 of starting phi)
+
+        Lambda =  3.90625E-02 ----->
+           Phi =   60267.      (  0.995 of starting phi)
+
+    No more lambdas: relative phi reduction between lambdas less than 0.0300
+    Lowest phi this iteration:   60267.    
+    Relative phi reduction between optimisation iterations less than 0.1000
+    Switch to higher order derivatives calculation
+
+       Current parameter values                 Previous parameter values
+       sy_knot_1       0.155076                 sy_knot_1        0.155640    
+       sy_knot_2       0.235902                 sy_knot_2        0.234005    
+       sy_knot_3       0.362269                 sy_knot_3        0.368232    
+    Maximum relative change: 1.6195E-02 ["sy_knot_3"]
+
+
+ OPTIMISATION ITERATION NO.        : 3
+    Model calls so far             : 15
+    Starting phi for this iteration:   60267.    
+
+        Lambda =  1.95312E-02 ----->
+           Phi =   60267.      (  1.000 of starting phi)
+
+        Lambda =  9.76562E-03 ----->
+           Phi =   60267.      (  1.000 of starting phi)
+
+    No more lambdas: relative phi reduction between lambdas less than 0.0300
+    Lowest phi this iteration:   60267.    
+
+       Current parameter values                 Previous parameter values
+       sy_knot_1       0.154855                 sy_knot_1        0.155076    
+       sy_knot_2       0.235852                 sy_knot_2        0.235902    
+       sy_knot_3       0.362000                 sy_knot_3        0.362269    
+    Maximum relative change: 1.4282E-03 ["sy_knot_1"]
+
+
+ OPTIMISATION ITERATION NO.        : 4
+    Model calls so far             : 23
+    Starting phi for this iteration:   60267.    
+
+        Lambda =  4.88281E-03 ----->
+           Phi =   60267.      (  1.000 of starting phi)
+
+        Lambda =  2.44141E-03 ----->
+           Phi =   60267.      (  1.000 of starting phi)
+
+    No more lambdas: relative phi reduction between lambdas less than 0.0300
+    Lowest phi this iteration:   60267.    
+
+       Current parameter values                 Previous parameter values
+       sy_knot_1       0.154852                 sy_knot_1        0.154855    
+       sy_knot_2       0.235853                 sy_knot_2        0.235852    
+       sy_knot_3       0.362000                 sy_knot_3        0.362000    
+    Maximum relative change: 1.7605E-05 ["sy_knot_1"]
+
+    Optimisation complete: the  4 lowest phi's are within a relative distance
+                           of eachother of 1.000E-02
+    Total model calls:     31
+
+    The model has been run one final time using best parameters. 
+    Thus all model input files contain best parameter values, and model 
+    output files contain model results based on these parameters.
+
+
+                             OPTIMISATION RESULTS
+
+
+ Parameters ----->
+
+ Parameter        Estimated         95% percent confidence limits
+                  value             lower limit       upper limit
+  sy_knot_1      0.154852           0.138919          0.170785    
+  sy_knot_2      0.235853           0.228978          0.242728    
+  sy_knot_3      0.362000           0.349741          0.374258    
+
+ Note: confidence limits provide only an indication of parameter uncertainty.
+       They rely on a linearity assumption which  may not extend as far in 
+       parameter space as the confidence limits themselves - see PEST manual.
+
+ See file spline_rise_calibration.sen for parameter sensitivities.
+
+
+ Observations ----->
+
+ Observation            Measured       Calculated     Residual       Weight     Group
+                        value          value
+ e1                    -149.912       -141.846       -8.06551        1.000      storageobs  
+ e2                    -149.777       -141.692       -8.08510        1.000      storageobs  
+ e3                    -149.641       -141.537       -8.10470        1.000      storageobs  
+ e4                    -149.506       -141.382       -8.12429        1.000      storageobs  
+ e5                    -149.371       -141.227       -8.14388        1.000      storageobs  
+ e6                    -149.236       -141.072       -8.16348        1.000      storageobs  
+ e7                    -149.100       -140.917       -8.18307        1.000      storageobs  
+ e8                    -148.965       -140.763       -8.20266        1.000      storageobs  
+ e9                    -148.830       -140.608       -8.22226        1.000      storageobs  
+ e10                   -148.695       -140.453       -8.24185        1.000      storageobs  
+ e11                   -148.559       -140.298       -8.26144        1.000      storageobs  
+ e12                   -148.424       -140.143       -8.28104        1.000      storageobs  
+ e13                   -148.289       -139.988       -8.30063        1.000      storageobs  
+ e14                   -148.154       -139.833       -8.32022        1.000      storageobs  
+ e15                   -148.018       -139.679       -8.33982        1.000      storageobs  
+ e16                   -147.883       -139.524       -8.35941        1.000      storageobs  
+ e17                   -147.748       -139.369       -8.37900        1.000      storageobs  
+ e18                   -147.613       -139.214       -8.39860        1.000      storageobs  
+ e19                   -147.477       -139.059       -8.41819        1.000      storageobs  
+ e20                   -147.342       -138.904       -8.43778        1.000      storageobs  
+ e21                   -147.207       -138.749       -8.45738        1.000      storageobs  
+ e22                   -147.072       -138.595       -8.47697        1.000      storageobs  
+ e23                   -146.936       -138.440       -8.49656        1.000      storageobs  
+ e24                   -146.801       -138.285       -8.51615        1.000      storageobs  
+ e25                   -148.212       -138.130       -10.0823        1.000      storageobs  
+ e26                   -146.531       -137.975       -8.55534        1.000      storageobs  
+ e27                   -144.849       -137.820       -7.02843        1.000      storageobs  
+ e28                   -146.260       -137.665       -8.59453        1.000      storageobs  
+ e29                   -146.125       -137.511       -8.61412        1.000      storageobs  
+ e30                   -145.989       -137.356       -8.63371        1.000      storageobs  
+ e31                   -145.854       -137.201       -8.65331        1.000      storageobs  
+ e32                   -145.719       -137.046       -8.67290        1.000      storageobs  
+ e33                   -145.584       -136.891       -8.69249        1.000      storageobs  
+ e34                   -145.448       -136.736       -8.71209        1.000      storageobs  
+ e35                   -145.313       -136.581       -8.73168        1.000      storageobs  
+ e36                   -145.178       -136.427       -8.75127        1.000      storageobs  
+ e37                   -145.043       -136.272       -8.77087        1.000      storageobs  
+ e38                   -144.907       -136.117       -8.79046        1.000      storageobs  
+ e39                   -144.772       -135.962       -8.81005        1.000      storageobs  
+ e40                   -144.637       -135.807       -8.82965        1.000      storageobs  
+ e41                   -144.502       -135.652       -8.84924        1.000      storageobs  
+ e42                   -144.366       -135.498       -8.86883        1.000      storageobs  
+ e43                   -144.231       -135.343       -8.88843        1.000      storageobs  
+ e44                   -144.096       -135.188       -8.90802        1.000      storageobs  
+ e45                   -143.961       -135.033       -8.92761        1.000      storageobs  
+ e46                   -143.825       -134.878       -8.94721        1.000      storageobs  
+ e47                   -143.690       -134.723       -8.96680        1.000      storageobs  
+ e48                   -143.555       -134.568       -8.98639        1.000      storageobs  
+ e49                   -143.420       -134.414       -9.00599        1.000      storageobs  
+ e50                   -143.284       -134.259       -9.02558        1.000      storageobs  
+ e51                   -143.149       -134.104       -9.04517        1.000      storageobs  
+ e52                   -143.014       -133.949       -9.06477        1.000      storageobs  
+ e53                   -142.879       -133.794       -9.08436        1.000      storageobs  
+ e54                   -142.743       -133.639       -9.10395        1.000      storageobs  
+ e55                   -142.608       -133.484       -9.12355        1.000      storageobs  
+ e56                   -142.473       -133.330       -9.14314        1.000      storageobs  
+ e57                   -142.337       -133.175       -9.16273        1.000      storageobs  
+ e58                   -146.594       -133.020       -13.5736        1.000      storageobs  
+ e59                   -146.399       -132.865       -13.5338        1.000      storageobs  
+ e60                   -146.536       -132.710       -13.8261        1.000      storageobs  
+ e61                   -146.313       -132.555       -13.7581        1.000      storageobs  
+ e62                   -146.091       -132.400       -13.6901        1.000      storageobs  
+ e63                   -145.868       -132.246       -13.6221        1.000      storageobs  
+ e64                   -142.769       -132.091       -10.6786        1.000      storageobs  
+ e65                   -142.573       -131.936       -10.6373        1.000      storageobs  
+ e66                   -142.377       -131.781       -10.5960        1.000      storageobs  
+ e67                   -142.181       -131.626       -10.5548        1.000      storageobs  
+ e68                   -141.985       -131.471       -10.5135        1.000      storageobs  
+ e69                   -141.789       -131.317       -10.4722        1.000      storageobs  
+ e70                   -141.593       -131.162       -10.4309        1.000      storageobs  
+ e71                   -142.885       -131.007       -11.8785        1.000      storageobs  
+ e72                   -142.657       -130.852       -11.8051        1.000      storageobs  
+ e73                   -142.429       -130.697       -11.7317        1.000      storageobs  
+ e74                   -142.201       -130.542       -11.6582        1.000      storageobs  
+ e75                   -141.972       -130.387       -11.5848        1.000      storageobs  
+ e76                   -141.744       -130.233       -11.5114        1.000      storageobs  
+ e77                   -141.516       -130.078       -11.4379        1.000      storageobs  
+ e78                   -141.287       -129.923       -11.3645        1.000      storageobs  
+ e79                   -141.059       -129.768       -11.2911        1.000      storageobs  
+ e80                   -140.831       -129.613       -11.2176        1.000      storageobs  
+ e81                   -140.602       -129.458       -11.1442        1.000      storageobs  
+ e82                   -140.374       -129.303       -11.0708        1.000      storageobs  
+ e83                   -140.146       -129.149       -10.9973        1.000      storageobs  
+ e84                   -139.918       -128.994       -10.9239        1.000      storageobs  
+ e85                   -139.689       -128.839       -10.8505        1.000      storageobs  
+ e86                   -139.461       -128.684       -10.7770        1.000      storageobs  
+ e87                   -139.233       -128.529       -10.7036        1.000      storageobs  
+ e88                   -139.004       -128.374       -10.6302        1.000      storageobs  
+ e89                   -138.776       -128.219       -10.5567        1.000      storageobs  
+ e90                   -138.548       -128.065       -10.4833        1.000      storageobs  
+ e91                   -138.320       -127.910       -10.4099        1.000      storageobs  
+ e92                   -138.091       -127.755       -10.3364        1.000      storageobs  
+ e93                   -137.863       -127.600       -10.2630        1.000      storageobs  
+ e94                   -137.635       -127.445       -10.1896        1.000      storageobs  
+ e95                   -137.406       -127.290       -10.1161        1.000      storageobs  
+ e96                   -137.178       -127.136       -10.0427        1.000      storageobs  
+ e97                   -136.950       -126.981       -9.96925        1.000      storageobs  
+ e98                   -138.221       -126.826       -11.3948        1.000      storageobs  
+ e99                   -137.903       -126.671       -11.2321        1.000      storageobs  
+ e100                  -137.505       -126.516       -10.9886        1.000      storageobs  
+ e101                  -137.154       -126.361       -10.7927        1.000      storageobs  
+ e102                  -136.803       -126.206       -10.5968        1.000      storageobs  
+ e103                  -136.452       -126.052       -10.4009        1.000      storageobs  
+ e104                  -136.102       -125.897       -10.2050        1.000      storageobs  
+ e105                  -135.751       -125.742       -10.0091        1.000      storageobs  
+ e106                  -135.400       -125.587       -9.81326        1.000      storageobs  
+ e107                  -135.050       -125.432       -9.61737        1.000      storageobs  
+ e108                  -134.699       -125.277       -9.42149        1.000      storageobs  
+ e109                  -134.348       -125.122       -9.22560        1.000      storageobs  
+ e110                  -132.786       -124.968       -7.81853        1.000      storageobs  
+ e111                  -132.474       -124.813       -7.66092        1.000      storageobs  
+ e112                  -132.161       -124.658       -7.50332        1.000      storageobs  
+ e113                  -131.849       -124.503       -7.34572        1.000      storageobs  
+ e114                  -131.536       -124.348       -7.18811        1.000      storageobs  
+ e115                  -131.224       -124.193       -7.03051        1.000      storageobs  
+ e116                  -130.911       -124.038       -6.87290        1.000      storageobs  
+ e117                  -130.599       -123.884       -6.71530        1.000      storageobs  
+ e118                  -129.764       -123.729       -6.03544        1.000      storageobs  
+ e119                  -129.479       -123.574       -5.90545        1.000      storageobs  
+ e120                  -129.195       -123.419       -5.77545        1.000      storageobs  
+ e121                  -128.910       -123.264       -5.64546        1.000      storageobs  
+ e122                  -128.625       -123.109       -5.51547        1.000      storageobs  
+ e123                  -128.340       -122.955       -5.38547        1.000      storageobs  
+ e124                  -128.055       -122.800       -5.25548        1.000      storageobs  
+ e125                  -127.770       -122.645       -5.12549        1.000      storageobs  
+ e126                  -127.485       -122.490       -4.99550        1.000      storageobs  
+ e127                  -128.625       -122.335       -6.29015        1.000      storageobs  
+ e128                  -128.098       -122.180       -5.91765        1.000      storageobs  
+ e129                  -127.571       -122.025       -5.54516        1.000      storageobs  
+ e130                  -127.043       -121.871       -5.17266        1.000      storageobs  
+ e131                  -126.516       -121.716       -4.80016        1.000      storageobs  
+ e132                  -125.988       -121.561       -4.42766        1.000      storageobs  
+ e133                  -125.461       -121.406       -4.05516        1.000      storageobs  
+ e134                  -124.934       -121.251       -3.68266        1.000      storageobs  
+ e135                  -124.406       -121.096       -3.31016        1.000      storageobs  
+ e136                  -123.879       -120.941       -2.93766        1.000      storageobs  
+ e137                  -124.697       -120.787       -3.91032        1.000      storageobs  
+ e138                  -124.216       -120.632       -3.58438        1.000      storageobs  
+ e139                  -125.801       -120.477       -5.32389        1.000      storageobs  
+ e140                  -127.325       -120.322       -7.00271        1.000      storageobs  
+ e141                  -126.903       -120.167       -6.73598        1.000      storageobs  
+ e142                  -126.482       -120.012       -6.46926        1.000      storageobs  
+ e143                  -127.340       -119.857       -7.48206        1.000      storageobs  
+ e144                  -126.954       -119.703       -7.25145        1.000      storageobs  
+ e145                  -126.569       -119.548       -7.02083        1.000      storageobs  
+ e146                  -126.183       -119.393       -6.79022        1.000      storageobs  
+ e147                  -125.798       -119.238       -6.55961        1.000      storageobs  
+ e148                  -125.412       -119.083       -6.32900        1.000      storageobs  
+ e149                  -124.895       -118.928       -5.96669        1.000      storageobs  
+ e150                  -124.534       -118.773       -5.76052        1.000      storageobs  
+ e151                  -124.173       -118.619       -5.55436        1.000      storageobs  
+ e152                  -123.812       -118.464       -5.34819        1.000      storageobs  
+ e153                  -123.002       -118.309       -4.69258        1.000      storageobs  
+ e154                  -123.745       -118.154       -5.59093        1.000      storageobs  
+ e155                  -123.564       -118.001       -5.56384        1.000      storageobs  
+ e156                  -123.383       -117.847       -5.53609        1.000      storageobs  
+ e157                  -123.203       -117.695       -5.50770        1.000      storageobs  
+ e158                  -123.022       -117.543       -5.47866        1.000      storageobs  
+ e159                  -122.841       -117.392       -5.44898        1.000      storageobs  
+ e160                  -122.660       -117.241       -5.41868        1.000      storageobs  
+ e161                  -122.479       -117.091       -5.38776        1.000      storageobs  
+ e162                  -122.298       -116.942       -5.35623        1.000      storageobs  
+ e163                  -122.481       -116.793       -5.68817        1.000      storageobs  
+ e164                  -121.974       -116.645       -5.32939        1.000      storageobs  
+ e165                  -121.764       -116.497       -5.26683        1.000      storageobs  
+ e166                  -121.245       -116.350       -4.89527        1.000      storageobs  
+ e167                  -121.030       -116.203       -4.82624        1.000      storageobs  
+ e168                  -120.814       -116.058       -4.75665        1.000      storageobs  
+ e169                  -120.599       -115.912       -4.68650        1.000      storageobs  
+ e170                  -120.383       -115.767       -4.61579        1.000      storageobs  
+ e171                  -120.168       -115.623       -4.54453        1.000      storageobs  
+ e172                  -120.069       -115.480       -4.58898        1.000      storageobs  
+ e173                  -119.886       -115.336       -4.54968        1.000      storageobs  
+ e174                  -119.704       -115.194       -4.50985        1.000      storageobs  
+ e175                  -119.521       -115.052       -4.46950        1.000      storageobs  
+ e176                  -119.339       -114.910       -4.42863        1.000      storageobs  
+ e177                  -119.156       -114.769       -4.38726        1.000      storageobs  
+ e178                  -118.974       -114.628       -4.34540        1.000      storageobs  
+ e179                  -118.791       -114.488       -4.30303        1.000      storageobs  
+ e180                  -118.609       -114.349       -4.26019        1.000      storageobs  
+ e181                  -118.427       -114.210       -4.21686        1.000      storageobs  
+ e182                  -118.716       -114.071       -4.64508        1.000      storageobs  
+ e183                  -118.582       -113.933       -4.64888        1.000      storageobs  
+ e184                  -118.447       -113.795       -4.65222        1.000      storageobs  
+ e185                  -118.240       -113.658       -4.58257        1.000      storageobs  
+ e186                  -118.113       -113.521       -4.59201        1.000      storageobs  
+ e187                  -117.986       -113.385       -4.60101        1.000      storageobs  
+ e188                  -117.858       -113.249       -4.60958        1.000      storageobs  
+ e189                  -117.731       -113.113       -4.61772        1.000      storageobs  
+ e190                  -117.603       -112.978       -4.62546        1.000      storageobs  
+ e191                  -117.476       -112.843       -4.63278        1.000      storageobs  
+ e192                  -117.349       -112.709       -4.63970        1.000      storageobs  
+ e193                  -117.221       -112.575       -4.64622        1.000      storageobs  
+ e194                  -117.226       -112.441       -4.78470        1.000      storageobs  
+ e195                  -117.107       -112.308       -4.79882        1.000      storageobs  
+ e196                  -116.988       -112.176       -4.81256        1.000      storageobs  
+ e197                  -116.869       -112.043       -4.82594        1.000      storageobs  
+ e198                  -116.750       -111.911       -4.83895        1.000      storageobs  
+ e199                  -116.631       -111.779       -4.85161        1.000      storageobs  
+ e200                  -116.512       -111.648       -4.86393        1.000      storageobs  
+ e201                  -116.393       -111.517       -4.87590        1.000      storageobs  
+ e202                  -116.274       -111.386       -4.88754        1.000      storageobs  
+ e203                  -116.155       -111.256       -4.89886        1.000      storageobs  
+ e204                  -116.036       -111.126       -4.90985        1.000      storageobs  
+ e205                  -115.917       -110.996       -4.92053        1.000      storageobs  
+ e206                  -115.798       -110.867       -4.93090        1.000      storageobs  
+ e207                  -115.679       -110.738       -4.94098        1.000      storageobs  
+ e208                  -115.560       -110.609       -4.95076        1.000      storageobs  
+ e209                  -115.441       -110.480       -4.96025        1.000      storageobs  
+ e210                  -115.322       -110.352       -4.96946        1.000      storageobs  
+ e211                  -114.937       -110.224       -4.71287        1.000      storageobs  
+ e212                  -114.815       -110.096       -4.71849        1.000      storageobs  
+ e213                  -114.693       -109.969       -4.72386        1.000      storageobs  
+ e214                  -114.571       -109.842       -4.72897        1.000      storageobs  
+ e215                  -114.449       -109.715       -4.73383        1.000      storageobs  
+ e216                  -114.327       -109.588       -4.73846        1.000      storageobs  
+ e217                  -114.204       -109.462       -4.74285        1.000      storageobs  
+ e218                  -114.082       -109.335       -4.74701        1.000      storageobs  
+ e219                  -113.960       -109.209       -4.75096        1.000      storageobs  
+ e220                  -113.838       -109.084       -4.75469        1.000      storageobs  
+ e221                  -113.426       -108.958       -4.46787        1.000      storageobs  
+ e222                  -113.295       -108.832       -4.46214        1.000      storageobs  
+ e223                  -113.836       -108.707       -5.12903        1.000      storageobs  
+ e224                  -117.069       -108.582       -8.48678        1.000      storageobs  
+ e225                  -117.363       -108.457       -8.90611        1.000      storageobs  
+ e226                  -117.088       -108.333       -8.75522        1.000      storageobs  
+ e227                  -116.812       -108.208       -8.60418        1.000      storageobs  
+ e228                  -116.537       -108.084       -8.45297        1.000      storageobs  
+ e229                  -116.261       -107.960       -8.30161        1.000      storageobs  
+ e230                  -116.351       -107.836       -8.51547        1.000      storageobs  
+ e231                  -116.396       -107.712       -8.68478        1.000      storageobs  
+ e232                  -116.791       -107.588       -9.20298        1.000      storageobs  
+ e233                  -116.494       -107.464       -9.03009        1.000      storageobs  
+ e234                  -116.198       -107.341       -8.85707        1.000      storageobs  
+ e235                  -115.901       -107.217       -8.68394        1.000      storageobs  
+ e236                  -115.707       -107.094       -8.61303        1.000      storageobs  
+ e237                  -115.387       -106.971       -8.41578        1.000      storageobs  
+ e238                  -115.066       -106.848       -8.21844        1.000      storageobs  
+ e239                  -114.746       -106.725       -8.02102        1.000      storageobs  
+ e240                  -114.425       -106.602       -7.82350        1.000      storageobs  
+ e241                  -114.105       -106.479       -7.62591        1.000      storageobs  
+ e242                  -113.784       -106.356       -7.42826        1.000      storageobs  
+ e243                  -113.464       -106.233       -7.23053        1.000      storageobs  
+ e244                  -113.144       -106.111       -7.03275        1.000      storageobs  
+ e245                  -113.577       -105.988       -7.58910        1.000      storageobs  
+ e246                  -115.475       -105.866       -9.60958        1.000      storageobs  
+ e247                  -115.217       -105.743       -9.47358        1.000      storageobs  
+ e248                  -117.565       -105.621       -11.9448        1.000      storageobs  
+ e249                  -116.522       -105.498       -11.0241        1.000      storageobs  
+ e250                  -115.479       -105.376       -10.1034        1.000      storageobs  
+ e251                  -114.436       -105.253       -9.18261        1.000      storageobs  
+ e252                  -113.393       -105.131       -8.26186        1.000      storageobs  
+ e253                  -112.349       -105.008       -7.34110        1.000      storageobs  
+ e254                  -111.306       -104.886       -6.42035        1.000      storageobs  
+ e255                  -113.655       -104.763       -8.89153        1.000      storageobs  
+ e256                  -113.460       -104.641       -8.81879        1.000      storageobs  
+ e257                  -113.265       -104.519       -8.74608        1.000      storageobs  
+ e258                  -113.069       -104.396       -8.67339        1.000      storageobs  
+ e259                  -112.874       -104.273       -8.60074        1.000      storageobs  
+ e260                  -112.679       -104.151       -8.52814        1.000      storageobs  
+ e261                  -112.484       -104.028       -8.45558        1.000      storageobs  
+ e262                  -112.289       -103.906       -8.38308        1.000      storageobs  
+ e263                  -112.093       -103.783       -8.31065        1.000      storageobs  
+ e264                  -111.898       -103.660       -8.23827        1.000      storageobs  
+ e265                  -111.703       -103.537       -8.16598        1.000      storageobs  
+ e266                  -111.508       -103.414       -8.09376        1.000      storageobs  
+ e267                  -111.313       -103.291       -8.02163        1.000      storageobs  
+ e268                  -111.714       -103.168       -8.54617        1.000      storageobs  
+ e269                  -110.922       -103.045       -7.87766        1.000      storageobs  
+ e270                  -110.130       -102.921       -7.20925        1.000      storageobs  
+ e271                  -110.015       -102.798       -7.21759        1.000      storageobs  
+ e272                  -110.460       -102.674       -7.78562        1.000      storageobs  
+ e273                  -110.450       -102.550       -7.89986        1.000      storageobs  
+ e274                  -111.666       -102.426       -9.23995        1.000      storageobs  
+ e275                  -111.408       -102.302       -9.10585        1.000      storageobs  
+ e276                  -111.150       -102.178       -8.97190        1.000      storageobs  
+ e277                  -111.086       -102.054       -9.03175        1.000      storageobs  
+ e278                  -110.887       -101.930       -8.95713        1.000      storageobs  
+ e279                  -110.786       -101.805       -8.98127        1.000      storageobs  
+ e280                  -110.580       -101.680       -8.89978        1.000      storageobs  
+ e281                  -110.374       -101.555       -8.81847        1.000      storageobs  
+ e282                  -110.168       -101.430       -8.73733        1.000      storageobs  
+ e283                  -109.961       -101.305       -8.65638        1.000      storageobs  
+ e284                  -109.755       -101.180       -8.57562        1.000      storageobs  
+ e285                  -109.549       -101.054       -8.49505        1.000      storageobs  
+ e286                  -109.343       -100.928       -8.41468        1.000      storageobs  
+ e287                  -109.136       -100.802       -8.33453        1.000      storageobs  
+ e288                  -108.930       -100.676       -8.25458        1.000      storageobs  
+ e289                  -108.724       -100.549       -8.17485        1.000      storageobs  
+ e290                  -108.518       -100.422       -8.09535        1.000      storageobs  
+ e291                  -108.311       -100.295       -8.01608        1.000      storageobs  
+ e292                  -108.105       -100.168       -7.93705        1.000      storageobs  
+ e293                  -107.858       -100.041       -7.81703        1.000      storageobs  
+ e294                  -107.663       -99.9130       -7.74968        1.000      storageobs  
+ e295                  -107.468       -99.7851       -7.68259        1.000      storageobs  
+ e296                  -107.964       -99.6569       -8.30686        1.000      storageobs  
+ e297                  -107.986       -99.5284       -8.45743        1.000      storageobs  
+ e298                  -107.810       -99.3997       -8.41011        1.000      storageobs  
+ e299                  -107.634       -99.2706       -8.36307        1.000      storageobs  
+ e300                  -107.458       -99.1413       -8.31631        1.000      storageobs  
+ e301                  -107.282       -99.0117       -8.26984        1.000      storageobs  
+ e302                  -107.105       -98.8818       -8.22366        1.000      storageobs  
+ e303                  -106.929       -98.7516       -8.17779        1.000      storageobs  
+ e304                  -106.753       -98.6211       -8.13222        1.000      storageobs  
+ e305                  -106.577       -98.4903       -8.08696        1.000      storageobs  
+ e306                  -106.401       -98.3592       -8.04203        1.000      storageobs  
+ e307                  -106.225       -98.2277       -7.99742        1.000      storageobs  
+ e308                  -105.616       -98.0959       -7.52054        1.000      storageobs  
+ e309                  -105.454       -97.9638       -7.48986        1.000      storageobs  
+ e310                  -105.291       -97.8313       -7.45952        1.000      storageobs  
+ e311                  -105.128       -97.6985       -7.42953        1.000      storageobs  
+ e312                  -104.965       -97.5653       -7.39989        1.000      storageobs  
+ e313                  -104.802       -97.4318       -7.37061        1.000      storageobs  
+ e314                  -104.640       -97.2979       -7.34169        1.000      storageobs  
+ e315                  -107.223       -97.1637       -10.0596        1.000      storageobs  
+ e316                  -107.901       -97.0290       -10.8715        1.000      storageobs  
+ e317                  -107.843       -96.8940       -10.9487        1.000      storageobs  
+ e318                  -107.579       -96.7586       -10.8202        1.000      storageobs  
+ e319                  -107.315       -96.6228       -10.6921        1.000      storageobs  
+ e320                  -107.051       -96.4866       -10.5644        1.000      storageobs  
+ e321                  -106.787       -96.3500       -10.4371        1.000      storageobs  
+ e322                  -106.936       -96.2130       -10.7225        1.000      storageobs  
+ e323                  -106.559       -96.0756       -10.4829        1.000      storageobs  
+ e324                  -106.150       -95.9378       -10.2126        1.000      storageobs  
+ e325                  -105.872       -95.7995       -10.0727        1.000      storageobs  
+ e326                  -105.499       -95.6608       -9.83870        1.000      storageobs  
+ e327                  -105.232       -95.5217       -9.71070        1.000      storageobs  
+ e328                  -104.965       -95.3821       -9.58315        1.000      storageobs  
+ e329                  -104.698       -95.2420       -9.45604        1.000      storageobs  
+ e330                  -106.901       -95.1016       -11.7996        1.000      storageobs  
+ e331                  -108.674       -94.9606       -13.7138        1.000      storageobs  
+ e332                  -108.262       -94.8192       -13.4423        1.000      storageobs  
+ e333                  -107.907       -94.6773       -13.2295        1.000      storageobs  
+ e334                  -107.552       -94.5350       -13.0172        1.000      storageobs  
+ e335                  -107.198       -94.3922       -12.8054        1.000      storageobs  
+ e336                  -106.843       -94.2488       -12.5940        1.000      storageobs  
+ e337                  -106.488       -94.1050       -12.3832        1.000      storageobs  
+ e338                  -106.133       -93.9607       -12.1728        1.000      storageobs  
+ e339                  -105.698       -93.8159       -11.8818        1.000      storageobs  
+ e340                  -105.060       -93.6706       -11.3898        1.000      storageobs  
+ e341                  -104.732       -93.5247       -11.2076        1.000      storageobs  
+ e342                  -104.235       -93.3784       -10.8570        1.000      storageobs  
+ e343                  -103.919       -93.2315       -10.6875        1.000      storageobs  
+ e344                  -103.603       -93.0841       -10.5186        1.000      storageobs  
+ e345                  -103.286       -92.9361       -10.3501        1.000      storageobs  
+ e346                  -102.970       -92.7877       -10.1822        1.000      storageobs  
+ e347                  -102.654       -92.6386       -10.0149        1.000      storageobs  
+ e348                  -102.312       -92.4890       -9.82343        1.000      storageobs  
+ e349                  -101.985       -92.3389       -9.64627        1.000      storageobs  
+ e350                  -101.808       -92.1882       -9.61960        1.000      storageobs  
+ e351                  -101.483       -92.0369       -9.44620        1.000      storageobs  
+ e352                  -101.158       -91.8851       -9.27339        1.000      storageobs  
+ e353                  -100.834       -91.7327       -9.10115        1.000      storageobs  
+ e354                  -100.509       -91.5796       -8.92949        1.000      storageobs  
+ e355                  -100.184       -91.4261       -8.75842        1.000      storageobs  
+ e356                  -99.8598       -91.2719       -8.58795        1.000      storageobs  
+ e357                  -99.5351       -91.1171       -8.41807        1.000      storageobs  
+ e358                  -99.2261       -90.9617       -8.26446        1.000      storageobs  
+ e359                  -98.7234       -90.8057       -7.91775        1.000      storageobs  
+ e360                  -98.4051       -90.6491       -7.75604        1.000      storageobs  
+ e361                  -98.0868       -90.4918       -7.59495        1.000      storageobs  
+ e362                  -97.7540       -90.3340       -7.42002        1.000      storageobs  
+ e363                  -97.4327       -90.1755       -7.25726        1.000      storageobs  
+ e364                  -97.1115       -90.0163       -7.09515        1.000      storageobs  
+ e365                  -96.7902       -89.8566       -6.93367        1.000      storageobs  
+ e366                  -96.5967       -89.6961       -6.90053        1.000      storageobs  
+ e367                  -96.2803       -89.5351       -6.74520        1.000      storageobs  
+ e368                  -95.9639       -89.3733       -6.59052        1.000      storageobs  
+ e369                  -96.0876       -89.2110       -6.87663        1.000      storageobs  
+ e370                  -95.7410       -89.0479       -6.69313        1.000      storageobs  
+ e371                  -95.3945       -88.8842       -6.51029        1.000      storageobs  
+ e372                  -95.0479       -88.7198       -6.32813        1.000      storageobs  
+ e373                  -97.0345       -88.5547       -8.47984        1.000      storageobs  
+ e374                  -96.7916       -88.3889       -8.40273        1.000      storageobs  
+ e375                  -96.6894       -88.2224       -8.46693        1.000      storageobs  
+ e376                  -96.4503       -88.0553       -8.39499        1.000      storageobs  
+ e377                  -97.8278       -87.8874       -9.94035        1.000      storageobs  
+ e378                  -97.6372       -87.7188       -9.91837        1.000      storageobs  
+ e379                  -97.4467       -87.5496       -9.89711        1.000      storageobs  
+ e380                  -97.2561       -87.3796       -9.87656        1.000      storageobs  
+ e381                  -97.0656       -87.2088       -9.85674        1.000      storageobs  
+ e382                  -97.6233       -87.0374       -10.5859        1.000      storageobs  
+ e383                  -97.0389       -86.8652       -10.1737        1.000      storageobs  
+ e384                  -96.0281       -86.6923       -9.33586        1.000      storageobs  
+ e385                  -96.3775       -86.5186       -9.85893        1.000      storageobs  
+ e386                  -96.2431       -86.3442       -9.89887        1.000      storageobs  
+ e387                  -96.1086       -86.1690       -9.93957        1.000      storageobs  
+ e388                  -95.9741       -85.9931       -9.98102        1.000      storageobs  
+ e389                  -95.8396       -85.8164       -10.0232        1.000      storageobs  
+ e390                  -95.7052       -85.6390       -10.0662        1.000      storageobs  
+ e391                  -95.5707       -85.4607       -10.1100        1.000      storageobs  
+ e392                  -95.4362       -85.2817       -10.1545        1.000      storageobs  
+ e393                  -95.3018       -85.1019       -10.1998        1.000      storageobs  
+ e394                  -95.0058       -84.9214       -10.0845        1.000      storageobs  
+ e395                  -94.8761       -84.7400       -10.1361        1.000      storageobs  
+ e396                  -94.7142       -84.5578       -10.1563        1.000      storageobs  
+ e397                  -94.5870       -84.3749       -10.2121        1.000      storageobs  
+ e398                  -94.3933       -84.1911       -10.2022        1.000      storageobs  
+ e399                  -94.2710       -84.0065       -10.2645        1.000      storageobs  
+ e400                  -94.1487       -83.8211       -10.3276        1.000      storageobs  
+ e401                  -93.8808       -83.6349       -10.2459        1.000      storageobs  
+ e402                  -93.7593       -83.4479       -10.3114        1.000      storageobs  
+ e403                  -93.6377       -83.2600       -10.3777        1.000      storageobs  
+ e404                  -93.5161       -83.0713       -10.4448        1.000      storageobs  
+ e405                  -93.7965       -82.8817       -10.9148        1.000      storageobs  
+ e406                  -93.6893       -82.6913       -10.9980        1.000      storageobs  
+ e407                  -93.5821       -82.5001       -11.0820        1.000      storageobs  
+ e408                  -93.4749       -82.3080       -11.1669        1.000      storageobs  
+ e409                  -93.3623       -82.1150       -11.2473        1.000      storageobs  
+ e410                  -94.3947       -81.9212       -12.4735        1.000      storageobs  
+ e411                  -93.5460       -81.7265       -11.8194        1.000      storageobs  
+ e412                  -93.1667       -81.5309       -11.6358        1.000      storageobs  
+ e413                  -92.3363       -81.3345       -11.0018        1.000      storageobs  
+ e414                  -93.8354       -81.1372       -12.6982        1.000      storageobs  
+ e415                  -93.6168       -80.9390       -12.6778        1.000      storageobs  
+ e416                  -93.1640       -80.7399       -12.4242        1.000      storageobs  
+ e417                  -93.0843       -80.5398       -12.5445        1.000      storageobs  
+ e418                  -92.9218       -80.3389       -12.5828        1.000      storageobs  
+ e419                  -92.7128       -80.1371       -12.5756        1.000      storageobs  
+ e420                  -92.5037       -79.9344       -12.5693        1.000      storageobs  
+ e421                  -93.9548       -79.7308       -14.2240        1.000      storageobs  
+ e422                  -93.6647       -79.5262       -14.1385        1.000      storageobs  
+ e423                  -93.3747       -79.3207       -14.0540        1.000      storageobs  
+ e424                  -93.0846       -79.1143       -13.9703        1.000      storageobs  
+ e425                  -92.7728       -78.9070       -13.8658        1.000      storageobs  
+ e426                  -92.5969       -78.6987       -13.8983        1.000      storageobs  
+ e427                  -92.2924       -78.4895       -13.8030        1.000      storageobs  
+ e428                  -91.4606       -78.2793       -13.1813        1.000      storageobs  
+ e429                  -91.6634       -78.0681       -13.5953        1.000      storageobs  
+ e430                  -91.4303       -77.8561       -13.5743        1.000      storageobs  
+ e431                  -91.1973       -77.6430       -13.5543        1.000      storageobs  
+ e432                  -91.1487       -77.4290       -13.7197        1.000      storageobs  
+ e433                  -90.9088       -77.2140       -13.6948        1.000      storageobs  
+ e434                  -91.1462       -76.9981       -14.1481        1.000      storageobs  
+ e435                  -90.8923       -76.7811       -14.1112        1.000      storageobs  
+ e436                  -90.8145       -76.5632       -14.2513        1.000      storageobs  
+ e437                  -90.9954       -76.3443       -14.6511        1.000      storageobs  
+ e438                  -91.0921       -76.1244       -14.9677        1.000      storageobs  
+ e439                  -90.8559       -75.9035       -14.9524        1.000      storageobs  
+ e440                  -90.6197       -75.6816       -14.9381        1.000      storageobs  
+ e441                  -90.4461       -75.4587       -14.9874        1.000      storageobs  
+ e442                  -89.9560       -75.2348       -14.7212        1.000      storageobs  
+ e443                  -90.4240       -75.0098       -15.4142        1.000      storageobs  
+ e444                  -90.1093       -74.7839       -15.3254        1.000      storageobs  
+ e445                  -89.7946       -74.5569       -15.2377        1.000      storageobs  
+ e446                  -89.4799       -74.3289       -15.1510        1.000      storageobs  
+ e447                  -89.2780       -74.0999       -15.1781        1.000      storageobs  
+ e448                  -88.9342       -73.8698       -15.0644        1.000      storageobs  
+ e449                  -88.8999       -73.6387       -15.2612        1.000      storageobs  
+ e450                  -88.4211       -73.4065       -15.0145        1.000      storageobs  
+ e451                  -88.0741       -73.1733       -14.9008        1.000      storageobs  
+ e452                  -87.7444       -72.9390       -14.8053        1.000      storageobs  
+ e453                  -87.3406       -72.7037       -14.6368        1.000      storageobs  
+ e454                  -86.7657       -72.4673       -14.2984        1.000      storageobs  
+ e455                  -86.2072       -72.2299       -13.9773        1.000      storageobs  
+ e456                  -86.2089       -71.9914       -14.2175        1.000      storageobs  
+ e457                  -85.9278       -71.7518       -14.1761        1.000      storageobs  
+ e458                  -85.6052       -71.5111       -14.0941        1.000      storageobs  
+ e459                  -85.6286       -71.2693       -14.3592        1.000      storageobs  
+ e460                  -85.1916       -71.0265       -14.1651        1.000      storageobs  
+ e461                  -84.7545       -70.7825       -13.9720        1.000      storageobs  
+ e462                  -84.3175       -70.5375       -13.7801        1.000      storageobs  
+ e463                  -83.7010       -70.2913       -13.4096        1.000      storageobs  
+ e464                  -83.3072       -70.0441       -13.2632        1.000      storageobs  
+ e465                  -82.8447       -69.7957       -13.0490        1.000      storageobs  
+ e466                  -83.1896       -69.5463       -13.6433        1.000      storageobs  
+ e467                  -82.9749       -69.2957       -13.6792        1.000      storageobs  
+ e468                  -82.3352       -69.0440       -13.2912        1.000      storageobs  
+ e469                  -81.9100       -68.7911       -13.1189        1.000      storageobs  
+ e470                  -81.4849       -68.5371       -12.9477        1.000      storageobs  
+ e471                  -81.3017       -68.2820       -13.0197        1.000      storageobs  
+ e472                  -80.5467       -68.0258       -12.5209        1.000      storageobs  
+ e473                  -79.7145       -67.7684       -11.9460        1.000      storageobs  
+ e474                  -79.8304       -67.5099       -12.3205        1.000      storageobs  
+ e475                  -80.0158       -67.2502       -12.7656        1.000      storageobs  
+ e476                  -79.4571       -66.9894       -12.4677        1.000      storageobs  
+ e477                  -79.3621       -66.7274       -12.6348        1.000      storageobs  
+ e478                  -78.6362       -66.4642       -12.1720        1.000      storageobs  
+ e479                  -77.8016       -66.1999       -11.6017        1.000      storageobs  
+ e480                  -77.3321       -65.9344       -11.3977        1.000      storageobs  
+ e481                  -76.6411       -65.6677       -10.9734        1.000      storageobs  
+ e482                  -76.8018       -65.3999       -11.4020        1.000      storageobs  
+ e483                  -76.5863       -65.1308       -11.4554        1.000      storageobs  
+ e484                  -76.2264       -64.8606       -11.3658        1.000      storageobs  
+ e485                  -75.9001       -64.5892       -11.3109        1.000      storageobs  
+ e486                  -75.4703       -64.3166       -11.1537        1.000      storageobs  
+ e487                  -75.0732       -64.0428       -11.0304        1.000      storageobs  
+ e488                  -74.5382       -63.7678       -10.7705        1.000      storageobs  
+ e489                  -74.1487       -63.4915       -10.6572        1.000      storageobs  
+ e490                  -73.7740       -63.2141       -10.5599        1.000      storageobs  
+ e491                  -73.3848       -62.9354       -10.4493        1.000      storageobs  
+ e492                  -72.6103       -62.6556       -9.95472        1.000      storageobs  
+ e493                  -71.2641       -62.3745       -8.88965        1.000      storageobs  
+ e494                  -70.6745       -62.0922       -8.58236        1.000      storageobs  
+ e495                  -70.2190       -61.8086       -8.41037        1.000      storageobs  
+ e496                  -69.7635       -61.5238       -8.23961        1.000      storageobs  
+ e497                  -69.8283       -61.2378       -8.59051        1.000      storageobs  
+ e498                  -69.0442       -60.9506       -8.09360        1.000      storageobs  
+ e499                  -68.9070       -60.6621       -8.24492        1.000      storageobs  
+ e500                  -68.4301       -60.3723       -8.05780        1.000      storageobs  
+ e501                  -67.9532       -60.0813       -7.87193        1.000      storageobs  
+ e502                  -67.4763       -59.7890       -7.68732        1.000      storageobs  
+ e503                  -67.7202       -59.4955       -8.22471        1.000      storageobs  
+ e504                  -68.5883       -59.2007       -9.38763        1.000      storageobs  
+ e505                  -68.0251       -58.9046       -9.12050        1.000      storageobs  
+ e506                  -67.4619       -58.6073       -8.85464        1.000      storageobs  
+ e507                  -68.0759       -58.3086       -9.76727        1.000      storageobs  
+ e508                  -67.8045       -58.0087       -9.79572        1.000      storageobs  
+ e509                  -68.5275       -57.7076       -10.8199        1.000      storageobs  
+ e510                  -67.4620       -57.4051       -10.0569        1.000      storageobs  
+ e511                  -65.6693       -57.1013       -8.56796        1.000      storageobs  
+ e512                  -64.8602       -56.7963       -8.06395        1.000      storageobs  
+ e513                  -63.8877       -56.4899       -7.39779        1.000      storageobs  
+ e514                  -62.9152       -56.1822       -6.73293        1.000      storageobs  
+ e515                  -61.2524       -55.8733       -5.37917        1.000      storageobs  
+ e516                  -59.7587       -55.5630       -4.19576        1.000      storageobs  
+ e517                  -58.8962       -55.2514       -3.64477        1.000      storageobs  
+ e518                  -58.0336       -54.9385       -3.09510        1.000      storageobs  
+ e519                  -58.7663       -54.6242       -4.14209        1.000      storageobs  
+ e520                  -58.8349       -54.3087       -4.52623        1.000      storageobs  
+ e521                  -58.8889       -53.9918       -4.89707        1.000      storageobs  
+ e522                  -57.7413       -53.6736       -4.06777        1.000      storageobs  
+ e523                  -56.6132       -53.3540       -3.25921        1.000      storageobs  
+ e524                  -56.4336       -53.0331       -3.40048        1.000      storageobs  
+ e525                  -56.6951       -52.7109       -3.98421        1.000      storageobs  
+ e526                  -58.9871       -52.3873       -6.59977        1.000      storageobs  
+ e527                  -57.8055       -52.0624       -5.74315        1.000      storageobs  
+ e528                  -57.0341       -51.7361       -5.29805        1.000      storageobs  
+ e529                  -58.5595       -51.4084       -7.15108        1.000      storageobs  
+ e530                  -55.3977       -51.0794       -4.31828        1.000      storageobs  
+ e531                  -54.6946       -50.7490       -3.94557        1.000      storageobs  
+ e532                  -52.8736       -50.4173       -2.45630        1.000      storageobs  
+ e533                  -50.6823       -50.0842      -0.598074        1.000      storageobs  
+ e534                  -48.8132       -49.7497       0.936528        1.000      storageobs  
+ e535                  -50.8986       -49.4138       -1.48476        1.000      storageobs  
+ e536                  -53.4573       -49.0766       -4.38075        1.000      storageobs  
+ e537                  -51.0849       -48.7379       -2.34699        1.000      storageobs  
+ e538                  -47.3843       -48.3979        1.01363        1.000      storageobs  
+ e539                  -48.1081       -48.0565      -5.163442E-02    1.000      storageobs  
+ e540                  -44.8762       -47.7137        2.83741        1.000      storageobs  
+ e541                  -50.1716       -47.3694       -2.80216        1.000      storageobs  
+ e542                  -48.1095       -47.0238       -1.08563        1.000      storageobs  
+ e543                  -47.3900       -46.6768      -0.713196        1.000      storageobs  
+ e544                  -46.2375       -46.3284       9.087928E-02    1.000      storageobs  
+ e545                  -45.8390       -45.9785       0.139495        1.000      storageobs  
+ e546                  -44.9378       -45.6272       0.689401        1.000      storageobs  
+ e547                  -44.1188       -45.2746        1.15575        1.000      storageobs  
+ e548                  -43.1970       -44.9205        1.72343        1.000      storageobs  
+ e549                  -43.3064       -44.5649        1.25850        1.000      storageobs  
+ e550                  -43.8804       -44.2079       0.327592        1.000      storageobs  
+ e551                  -42.2712       -43.8495        1.57834        1.000      storageobs  
+ e552                  -41.2652       -43.4897        2.22449        1.000      storageobs  
+ e553                  -41.5528       -43.1284        1.57562        1.000      storageobs  
+ e554                  -43.1451       -42.7657      -0.379404        1.000      storageobs  
+ e555                  -43.6338       -42.4015       -1.23222        1.000      storageobs  
+ e556                  -43.0731       -42.0359       -1.03723        1.000      storageobs  
+ e557                  -42.5125       -41.6688      -0.843686        1.000      storageobs  
+ e558                  -41.9519       -41.3003      -0.651603        1.000      storageobs  
+ e559                  -41.3913       -40.9303      -0.460980        1.000      storageobs  
+ e560                  -41.8303       -40.5589       -1.27138        1.000      storageobs  
+ e561                  -43.5904       -40.1860       -3.40447        1.000      storageobs  
+ e562                  -42.5954       -39.8116       -2.78388        1.000      storageobs  
+ e563                  -41.6005       -39.4357       -2.16477        1.000      storageobs  
+ e564                  -40.6055       -39.0584       -1.54713        1.000      storageobs  
+ e565                  -38.5774       -38.6795       0.102191        1.000      storageobs  
+ e566                  -37.4558       -38.2992       0.843471        1.000      storageobs  
+ e567                  -36.3342       -37.9175        1.58327        1.000      storageobs  
+ e568                  -36.2385       -37.5342        1.29571        1.000      storageobs  
+ e569                  -35.1093       -37.1494        2.04008        1.000      storageobs  
+ e570                  -39.3524       -36.7631       -2.58926        1.000      storageobs  
+ e571                  -37.5310       -36.3754       -1.15557        1.000      storageobs  
+ e572                  -40.4265       -35.9861       -4.44035        1.000      storageobs  
+ e573                  -37.8725       -35.5953       -2.27714        1.000      storageobs  
+ e574                  -35.3185       -35.2031      -0.115438        1.000      storageobs  
+ e575                  -38.8423       -34.8093       -4.03298        1.000      storageobs  
+ e576                  -37.6768       -34.4140       -3.26287        1.000      storageobs  
+ e577                  -35.8946       -34.0172       -1.87745        1.000      storageobs  
+ e578                  -34.0434       -33.6188      -0.424602        1.000      storageobs  
+ e579                  -32.1922       -33.2190        1.02673        1.000      storageobs  
+ e580                  -31.7550       -32.8176        1.06256        1.000      storageobs  
+ e581                  -30.3462       -32.4146        2.06843        1.000      storageobs  
+ e582                  -28.4334       -32.0102        3.57681        1.000      storageobs  
+ e583                  -26.5206       -31.6042        5.08364        1.000      storageobs  
+ e584                  -25.4460       -31.1967        5.75072        1.000      storageobs  
+ e585                  -23.6579       -30.7876        7.12974        1.000      storageobs  
+ e586                  -21.8698       -30.3770        8.50722        1.000      storageobs  
+ e587                  -20.0817       -29.9648        9.88315        1.000      storageobs  
+ e588                  -30.0045       -29.5511      -0.453354        1.000      storageobs  
+ e589                  -30.4446       -29.1358       -1.30876        1.000      storageobs  
+ e590                  -29.5334       -28.7190      -0.814327        1.000      storageobs  
+ e591                  -31.5545       -28.3006       -3.25387        1.000      storageobs  
+ e592                  -24.9490       -27.8807        2.93165        1.000      storageobs  
+ e593                  -26.9702       -27.4592       0.488987        1.000      storageobs  
+ e594                  -26.1158       -27.0361       0.920293        1.000      storageobs  
+ e595                  -25.2614       -26.6115        1.35003        1.000      storageobs  
+ e596                  -24.4070       -26.1852        1.77819        1.000      storageobs  
+ e597                  -36.3111       -25.7574       -10.5536        1.000      storageobs  
+ e598                  -32.4711       -25.3281       -7.14307        1.000      storageobs  
+ e599                  -26.0248       -24.8971       -1.12771        1.000      storageobs  
+ e600                  -21.4526       -24.4645        3.01189        1.000      storageobs  
+ e601                  -26.8046       -24.0304       -2.77419        1.000      storageobs  
+ e602                  -29.6257       -23.5947       -6.03106        1.000      storageobs  
+ e603                  -28.7508       -23.1573       -5.59341        1.000      storageobs  
+ e604                  -27.9694       -22.7184       -5.25099        1.000      storageobs  
+ e605                  -27.1881       -22.2779       -4.91017        1.000      storageobs  
+ e606                  -27.3966       -21.8358       -5.56079        1.000      storageobs  
+ e607                  -27.7557       -21.3920       -6.36368        1.000      storageobs  
+ e608                  -29.8360       -20.9467       -8.88933        1.000      storageobs  
+ e609                  -28.7420       -20.4998       -8.24221        1.000      storageobs  
+ e610                  -27.5641       -20.0512       -7.51293        1.000      storageobs  
+ e611                  -25.4744       -19.6010       -5.87336        1.000      storageobs  
+ e612                  -24.5619       -19.1492       -5.41272        1.000      storageobs  
+ e613                  -23.7047       -18.6958       -5.00892        1.000      storageobs  
+ e614                  -22.8475       -18.2407       -4.60674        1.000      storageobs  
+ e615                  -21.9903       -17.7841       -4.20620        1.000      storageobs  
+ e616                  -21.1330       -17.3258       -3.80728        1.000      storageobs  
+ e617                  -20.2758       -16.8658       -3.41000        1.000      storageobs  
+ e618                  -21.3613       -16.4043       -4.95703        1.000      storageobs  
+ e619                  -20.7173       -15.9410       -4.77629        1.000      storageobs  
+ e620                  -20.0734       -15.4762       -4.59720        1.000      storageobs  
+ e621                  -19.4294       -15.0097       -4.41975        1.000      storageobs  
+ e622                  -18.7855       -14.5416       -4.24395        1.000      storageobs  
+ e623                  -17.8528       -14.0718       -3.78102        1.000      storageobs  
+ e624                  -17.1694       -13.6003       -3.56911        1.000      storageobs  
+ e625                  -16.4861       -13.1272       -3.35885        1.000      storageobs  
+ e626                  -19.3009       -12.6525       -6.64840        1.000      storageobs  
+ e627                  -18.2658       -12.1760       -6.08976        1.000      storageobs  
+ e628                  -17.2308       -11.6980       -5.53278        1.000      storageobs  
+ e629                  -16.5262       -11.2182       -5.30794        1.000      storageobs  
+ e630                  -17.2057       -10.7368       -6.46891        1.000      storageobs  
+ e631                  -15.5783       -10.2537       -5.32458        1.000      storageobs  
+ e632                  -13.9509       -9.76899       -4.18192        1.000      storageobs  
+ e633                  -15.0460       -9.28257       -5.76340        1.000      storageobs  
+ e634                  -13.7675       -8.79447       -4.97303        1.000      storageobs  
+ e635                  -12.7136       -8.30468       -4.40888        1.000      storageobs  
+ e636                  -13.8109       -7.81322       -5.99766        1.000      storageobs  
+ e637                  -18.6799       -7.32007       -11.3599        1.000      storageobs  
+ e638                  -16.9820       -6.82523       -10.1568        1.000      storageobs  
+ e639                  -15.2841       -6.32870       -8.95541        1.000      storageobs  
+ e640                  -15.3772       -5.83048       -9.54674        1.000      storageobs  
+ e641                  -13.7200       -5.33057       -8.38944        1.000      storageobs  
+ e642                  -15.7126       -4.82896       -10.8836        1.000      storageobs  
+ e643                  -14.3906       -4.32565       -10.0650        1.000      storageobs  
+ e644                  -15.3903       -3.82063       -11.5696        1.000      storageobs  
+ e645                  -17.3376       -3.31391       -14.0237        1.000      storageobs  
+ e646                  -16.3669       -2.80549       -13.5614        1.000      storageobs  
+ e647                  -15.3962       -2.29535       -13.1008        1.000      storageobs  
+ e648                  -14.5594       -1.78351       -12.7759        1.000      storageobs  
+ e649                  -13.4638       -1.26994       -12.1939        1.000      storageobs  
+ e650                  -12.3683      -0.754667       -11.6136        1.000      storageobs  
+ e651                  -11.2727      -0.237670       -11.0350        1.000      storageobs  
+ e652                  -10.1772       0.281048       -10.4582        1.000      storageobs  
+ e653                  -9.35968       0.801490       -10.1612        1.000      storageobs  
+ e654                  -8.37114        1.32366       -9.69480        1.000      storageobs  
+ e655                  -7.03240        1.84755       -8.87995        1.000      storageobs  
+ e656                  -9.25579        2.37318       -11.6290        1.000      storageobs  
+ e657                  -8.68463        2.90054       -11.5852        1.000      storageobs  
+ e658                  -8.41663        3.42963       -11.8463        1.000      storageobs  
+ e659                  -7.86699        3.96047       -11.8275        1.000      storageobs  
+ e660                  -7.31735        4.49304       -11.8104        1.000      storageobs  
+ e661                  -8.48763        5.02735       -13.5150        1.000      storageobs  
+ e662                  -8.08190        5.56341       -13.6453        1.000      storageobs  
+ e663                  -7.67617        6.10122       -13.7774        1.000      storageobs  
+ e664                  -7.27044        6.64077       -13.9112        1.000      storageobs  
+ e665                  -8.95687        7.18208       -16.1389        1.000      storageobs  
+ e666                  -8.65316        7.72514       -16.3783        1.000      storageobs  
+ e667                  -7.84291        8.26995       -16.1129        1.000      storageobs  
+ e668                  -7.03266        8.81652       -15.8492        1.000      storageobs  
+ e669                  -6.22241        9.36485       -15.5873        1.000      storageobs  
+ e670                  -5.91048        9.91495       -15.8254        1.000      storageobs  
+ e671                  -5.29956        10.4668       -15.7664        1.000      storageobs  
+ e672                  -5.76153        11.0204       -16.7820        1.000      storageobs  
+ e673                  -5.13174        11.5758       -16.7076        1.000      storageobs  
+ e674                  -4.50195        12.1330       -16.6349        1.000      storageobs  
+ e675                  -5.14030        12.6919       -17.8322        1.000      storageobs  
+ e676                  -3.66508        13.2526       -16.9177        1.000      storageobs  
+ e677                  -2.18987        13.8151       -16.0050        1.000      storageobs  
+ e678                 -0.714652        14.3794       -15.0940        1.000      storageobs  
+ e679                  -1.35300        14.9454       -16.2984        1.000      storageobs  
+ e680                 -0.532430        15.5133       -16.0457        1.000      storageobs  
+ e681                  0.154050        16.0829       -15.9288        1.000      storageobs  
+ e682                  0.840531        16.6543       -15.8138        1.000      storageobs  
+ e683                   1.52701        17.2275       -15.7005        1.000      storageobs  
+ e684                  -1.08622        17.8025       -18.8887        1.000      storageobs  
+ e685                 -0.713934        18.3792       -19.0932        1.000      storageobs  
+ e686                 -0.341650        18.9578       -19.2995        1.000      storageobs  
+ e687                  3.063305E-02    19.5382       -19.5076        1.000      storageobs  
+ e688                 -0.962570        20.1204       -21.0829        1.000      storageobs  
+ e689                 -0.641713        20.7043       -21.3460        1.000      storageobs  
+ e690                 -0.320857        21.2901       -21.6110        1.000      storageobs  
+ e691                   0.00000        21.8777       -21.8777        1.000      storageobs  
+
+ See file spline_rise_calibration.res for more details of residuals in graph-ready format.
+
+ See file spline_rise_calibration.seo for composite observation sensitivities.
+
+
+ Objective function ----->
+
+   Sum of squared weighted residuals (ie phi)                =  6.0267E+04
+
+
+ Correlation Coefficient ----->
+
+   Correlation coefficient                                   =  0.99473    
+
+
+ Analysis of residuals ----->
+
+   All residuals:-
+      Number of residuals with non-zero weight                       =   691
+      Mean value of non-zero weighted residuals                      =  -8.253    
+      Maximum weighted residual [observation "e587"]                 =   9.883    
+      Minimum weighted residual [observation "e691"]                 =  -21.88    
+      Standard variance of weighted residuals                        =   87.60    
+      Standard error of weighted residuals                           =   9.359    
+
+      Note: the above variance was obtained by dividing the objective 
+      function by the number of system degrees of freedom (ie. number of 
+      observations with non-zero weight plus number of prior information 
+      articles with non-zero weight minus the number of adjustable parameters.)
+      If the degrees of freedom is negative the divisor becomes 
+      the number of observations with non-zero weight plus the number of 
+      prior information items with non-zero weight.
+
+
+ K-L information statistics ----->
+
+
+   AIC   =   3095.661    
+   AICC  =   3095.719    
+   BIC   =   3113.814    
+   KIC   =   3114.396    
+
+ Parameter covariance matrix ----->
+
+               sy_knot_1    sy_knot_2    sy_knot_3  
+ sy_knot_1      6.6080E-05  -1.8502E-05   1.1753E-05
+ sy_knot_2     -1.8502E-05   1.2303E-05   7.3073E-06
+ sy_knot_3      1.1753E-05   7.3073E-06   3.9118E-05
+
+
+ Parameter correlation coefficient matrix ----->
+
+               sy_knot_1    sy_knot_2    sy_knot_3  
+ sy_knot_1       1.000      -0.6489       0.2312    
+ sy_knot_2     -0.6489        1.000       0.3331    
+ sy_knot_3      0.2312       0.3331        1.000    
+
+
+ Normalized eigenvectors of parameter covariance matrix ----->
+
+               Vector_1     Vector_2     Vector_3   
+ sy_knot_1     -0.3205       0.1630      -0.9331    
+ sy_knot_2     -0.9019      -0.3539       0.2479    
+ sy_knot_3      0.2898      -0.9210      -0.2604    
+
+
+ Eigenvalues ----->
+
+                3.3806E-06   3.9845E-05   7.4275E-05

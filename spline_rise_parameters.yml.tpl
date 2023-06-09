@@ -1,0 +1,26 @@
+ptf @
+specific_yield:
+  type: spline
+  zeta_knots_mm:
+    - -450.
+    - -240.
+    - -120.
+    - 300.
+  sy_knots:  # Specific yield, dimensionless
+    - @sy_knot_1                      @                    
+    - @sy_knot_2                      @
+    - @sy_knot_3                      @
+    - 1.0
+transmissivity:
+  type: spline
+  zeta_knots_mm:
+    - -291.7
+    - -5.167
+    - 168.3
+    - 1000
+  K_knots_km_d:  # Conductivity, km /d
+    - 0.005356
+    - 1.002
+    - 6577.0
+    - 8430.0
+  minimum_transmissivity_m2_d: 7.442  # Minimum transmissivity, m2 /d

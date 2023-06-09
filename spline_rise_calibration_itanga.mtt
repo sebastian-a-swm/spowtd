@@ -1,0 +1,46 @@
+ PARAMETER STATISTICAL MATRICES: CASE spline_rise_calibration_itanga
+
+ OPTIMISATION ITERATION NUMBER  5
+
+
+ Parameter standard deviations ----->
+
+ Adjustable        Group           Current          Standard
+ parameter                         value            deviation
+ sy_knot_1         sy_knot         0.135789         1.804125E-03
+ sy_knot_2         sy_knot         0.385814         2.508731E-03
+ sy_knot_3         sy_knot         0.564462         4.463438E-03
+
+ Note that if a parameter is log-transformed, the standard deviation in the 
+ above table refers to the log of the parameter. Note also that the objective
+ function used in the calculation of the covariance matrix (and eigenvalues
+ of the covariance matrix) was calculated at the end of the previous iteration.
+
+
+ Parameter covariance matrix ----->
+
+               sy_knot_1    sy_knot_2    sy_knot_3  
+ sy_knot_1      3.2549E-06  -3.2476E-06   1.8825E-06
+ sy_knot_2     -3.2476E-06   6.2937E-06  -4.6094E-06
+ sy_knot_3      1.8825E-06  -4.6094E-06   1.9922E-05
+
+
+ Parameter correlation coefficient matrix ----->
+
+               sy_knot_1    sy_knot_2    sy_knot_3  
+ sy_knot_1       1.000      -0.7175       0.2338    
+ sy_knot_2     -0.7175        1.000      -0.4116    
+ sy_knot_3      0.2338      -0.4116        1.000    
+
+
+ Normalized eigenvectors of covariance matrix ----->
+
+               Vector_1     Vector_2     Vector_3   
+ sy_knot_1      0.8209      -0.5510      -0.1502    
+ sy_knot_2      0.5682       0.7617       0.3113    
+ sy_knot_3      5.7162E-02   0.3409      -0.9384    
+
+
+ Eigenvalues ----->
+
+                1.1380E-06   6.5800E-06   2.1753E-05
