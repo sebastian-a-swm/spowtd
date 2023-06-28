@@ -39,7 +39,8 @@ def plot_rise(connection, parameters):
     plt.yticks(fontsize=18)
     plt.axhline(y=0, xmin=-100, xmax=100, color='grey', linestyle='--')
 
-    IMERG = 1
+    #SA! 1 is for stretched plotting AND 0 is for non strecthed plottin
+    IMERG = 0
     if IMERG == 1:
         cursor.execute(
             """

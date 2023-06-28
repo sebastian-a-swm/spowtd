@@ -248,12 +248,13 @@ SELECT interval_start_epoch,
        total_depth_mm AS rain_total_depth_mm,
        initial_zeta_mm,
        final_zeta_mm,
-       (ABS(final_zeta_mm - initial_zeta_mm) / 50.) AS factor_stretch,
-       (total_depth_mm/(ABS(final_zeta_mm - initial_zeta_mm) / 50.)) AS stretched_rain_total_depth_mm,
-       (((initial_zeta_mm+final_zeta_mm)/ 2.) - 25.0) AS stretched_initial_zeta_mm,
-       (((initial_zeta_mm+final_zeta_mm)/ 2.) + 25.0) AS stretched_final_zeta_mm
+       (ABS(final_zeta_mm - initial_zeta_mm) / 100.) AS factor_stretch,
+       (total_depth_mm/(ABS(final_zeta_mm - initial_zeta_mm) / 100.)) AS stretched_rain_total_depth_mm,
+       (((initial_zeta_mm+final_zeta_mm)/ 2.) - 50.0) AS stretched_initial_zeta_mm,
+       (((initial_zeta_mm+final_zeta_mm)/ 2.) + 50.0) AS stretched_final_zeta_mm
 FROM storm_total_rise AS str
 JOIN storm_total_rain_depth AS strd
   USING (storm_start_epoch)
 JOIN rising_interval AS ri
   ON ri.start_epoch = str.interval_start_epoch;
+-- SA! additional variables are created for stretching and these have to be manually adjusted, if still included

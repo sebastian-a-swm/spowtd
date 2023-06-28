@@ -4,14 +4,28 @@ import sqlite3
 import matplotlib.pyplot as plt
 
 # Read sqlite query results into a pandas DataFrame
-con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_IMERG.sqlite3")
-df1_rising_curve_line_segment = pd.read_sql_query("SELECT * from zeta_grid", con)
-con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_IMERG.sqlite3")
-df1_rainfall_intensity = pd.read_sql_query("SELECT * from rainfall_intensity", con)
-con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG.sqlite3")
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_average_rising_depth = pd.read_sql_query("SELECT * from average_rising_depth", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_rising_interval_zeta = pd.read_sql_query("SELECT * from rising_interval_zeta", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_rising_interval = pd.read_sql_query("SELECT * from rising_interval", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_zeta_grid = pd.read_sql_query("SELECT * from zeta_grid", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_storm_total_rain_depth = pd.read_sql_query("SELECT * from storm_total_rain_depth", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_storm_total_rise = pd.read_sql_query("SELECT * from storm_total_rise", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
 df1_storm = pd.read_sql_query("SELECT * from storm", con)
-con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG.sqlite3")
-df1_zeta_interval_storm = pd.read_sql_query("SELECT * from zeta_interval_storm", con)
+con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+df1_rising_curve_line_segment = pd.read_sql_query("SELECT * from rising_curve_line_segment", con)
+#con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3")
+#df1_median_rising_depth = pd.read_sql_query("SELECT * from median_rising_depth", con)
+
+df1_median_rising_depth = pd.merge(df1_rising_interval,df1_rising_interval_zeta, on="start_epoch")
+df1_median_rising_depth["median_crossing_depth_mm"]=df1_median_rising_depth["mean_crossing_depth_mm"]+df1_median_rising_depth["rain_depth_offset_mm"]
+df_manipulation = df1_median_rising_depth[["zeta_number","median_crossing_depth_mm"]].copy().groupby('zeta_number').median('median_crossing_depth_mm').reset_index().rename(columns = {'zeta_number' : 'zeta_mm'})
 
 con = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG.sqlite3")
 df2_average_rising_depth = pd.read_sql_query("SELECT * from average_rising_depth", con)

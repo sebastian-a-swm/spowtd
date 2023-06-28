@@ -166,8 +166,7 @@ def find_offsets(head_mapping):
             series_indices[index] for index in sids if index != reference_index
         ]
         row_template[indices] = 1.0 / number_of_series_at_head
-        #SA! changed np.mean() to np.median
-        mean_time = np.median(times)
+        mean_time = np.mean(times)
         for series_id, t in series_at_head:
             A[row_index] = row_template
             # !!! some redundancy here

@@ -16,18 +16,17 @@ matches.
 
 import datetime
 import logging
-import sqlite3
 
 from collections import defaultdict
 
 import numpy as np
-
+import pandas as pd
 
 LOG = logging.getLogger("spowtd.classify")
 
 
 def classify_intervals(
-    connection, storm_rain_threshold_mm_h, rising_jump_threshold_mm_h
+    connection, storm_rain_threshold_mm_h=4.0, rising_jump_threshold_mm_h=8.0
 ):
     """Classify data into storm and interstorm intervals"""
     cursor = connection.cursor()
@@ -78,7 +77,8 @@ def populate_zeta_interval(
         rising_jump_threshold_mm_h,
     )
 
-# SA adjusted the rainfall intensity threshold to 0.5 mm/h for coping ith IMERG drizzling
+# SA! Rainfall intensity threshold set to 0.5 mm/h to cope with IMERG drizzling
+# SA! Still manual adjustment needed when used with in situ precipitation/throughfall
 def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     """Populate interstorm intervals"""
     (epoch, zeta_mm, is_raining) = (
@@ -110,7 +110,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     # until the next rain as a "mystery jump".
     rates = np.concatenate(([0], (zeta_mm[1:] - zeta_mm[:-1]) / (hour[1:] - hour[:-1])))
     is_jump = (rates > rising_jump_threshold_mm_h).astype(bool)
-    is_mystery_jump = get_mystery_jump_mask(is_jump, is_raining, zeta_mm) #SA! added zeta_mm to stop mystery_jumps sooner
+    is_mystery_jump = get_mystery_jump_mask(is_jump, is_raining)
     is_interstorm = (~is_mystery_jump) & (~is_raining)
     interval_mask = is_interstorm
     del is_raining
@@ -141,9 +141,14 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
 
     LOG.info("%s series found", len(series_indices))
 
-    #SA slightly adjusted this to only inlcude recession events that last at least 1 day to include diurnal behavior of WL
+    #SA! Only inlcude recession events that last at least 24 hours - include diurnal effect on recession rate
+    #SA! except if the initial zeta_mm value of the recession event belongs to the highest 10% of WL, then include without cropping
+    #SA! Round/crop recession events to full days to even night and day time recession contribution
     for indices in series_indices:
-        if epoch[indices[-1]] - epoch[indices[0]] > 86400:
+        if (epoch[indices[-1]] - epoch[indices[0]] > 86400) | (zeta_mm[indices[0]] >= np.quantile(zeta_mm, 0.90)): # full day 86400  20 hours 72000
+            remainder = (epoch[indices[-1]] - epoch[indices[0]]) % 86400
+            if (epoch[indices[-1]] - epoch[indices[0]] > 86400):
+                epoch[indices[-1]] = epoch[indices[-1]] - remainder
             cursor.execute(
                 """
                 INSERT INTO zeta_interval
@@ -229,88 +234,98 @@ def match_all_storms(
         jump_thru_epoch = int(epoch[jump_stop - 1])
         # Duplicates are possible if multiple jumps match the same
         # storm
-        # SA! added: ensure minimum window for P is extent of jump
-        
+
+        #SA! if the rise event is increasing but at a lower rate than the threshold
+        #SA! and the storm event is longer than the rise event, extend to the storm event while increasing
+
+        for size in range(int((jump_start_epoch-storm_start_epoch)/1800)):
+            if zeta_mm[jump_start] > zeta_mm[jump_start-size]:
+                jump_start_epoch = int(jump_start_epoch-size*1800)
+
+        for size in range(int((storm_thru_epoch-jump_thru_epoch)/1800)):
+            if zeta_mm[jump_stop] > zeta_mm[jump_stop+size]:
+                jump_thru_epoch = int(jump_thru_epoch+size*1800)
+
+        # SA! Ensure minimum time window for P contribution to jump is the time window of that jump
         storm_start_epoch = int(np.min([storm_start_epoch,jump_start_epoch]))
         storm_thru_epoch = int(np.max([storm_thru_epoch-1800,jump_thru_epoch]))
-        # SA if the 2 hours before and after are still raining (P rate >= 0.5 mm/h) then add these hours to the rain
-	    # SA still have to adjust only for IMERG not throughfall.
-        for i in range(4):
-            if (rainfall_intensity_mm_h[jump_start-i-1]) >= (0.5):
-                i=i
+
+        # SA! If the 2 hours before and/or after are still raining (P >= 0.5 mm/h) then extend the P time window
+	    # SA! Still manual adjustment needed when used with in situ precipitation/throughfall.
+        drizzling = 1
+        if drizzling == 1:
+            for i in range(4):
+                if (rainfall_intensity_mm_h[jump_start-i-1]) >= (0.5):
+                    i=i
+                else:
+                    break
+
+            if ((i > 0) and (i<3)):
+                storm_start_epoch = int(epoch[jump_start-(i)])
+            elif (i == 3):
+                storm_start_epoch = int(epoch[jump_start - (i+1)])
             else:
-                break
+                storm_start_epoch = storm_start_epoch
 
-        if ((i > 0) and (i<3)):
-            storm_start_epoch = int(epoch[jump_start-(i)])
-        elif (i == 3):
-            storm_start_epoch = int(epoch[jump_start - (i+1)])
-        else:
-            storm_start_epoch = storm_start_epoch
+            for j in range(4):
+                if (rainfall_intensity_mm_h[jump_stop+(j)]) >= (0.5):
+                    j=j
+                else:
+                    break
 
-        for j in range(4):
-            if (rainfall_intensity_mm_h[jump_stop+(j)]) >= (0.5):
-                j=j
+            if storm_thru_epoch < int(epoch[jump_stop+(j-1)]):
+                storm_thru_epoch = int(epoch[jump_stop+(j)])
             else:
-                break
+                storm_thru_epoch = storm_thru_epoch
 
-        if storm_thru_epoch < int(epoch[jump_stop+(j-1)]):
-            storm_thru_epoch = int(epoch[jump_stop+(j)])
-        else:
-            storm_thru_epoch = storm_thru_epoch
 
-        #SA! added to make sure a jump is at least 1.5 cm
-        if zeta_mm[jump_stop]-zeta_mm[jump_start]>20:
-
-            already_seen = cursor.execute(
-                """
-            SELECT EXISTS (
-              SELECT 1 FROM storm
-              WHERE start_epoch = :start_epoch
-              AND thru_epoch = :thru_epoch
-            )""",
-                {"start_epoch": storm_start_epoch, "thru_epoch": storm_thru_epoch},
-            ).fetchone()[0]
-            assert not already_seen, (
-                f"Storm at {convert_epoch_to_datetime_text(storm_start_epoch)}"
-                f"--{convert_epoch_to_datetime_text(storm_thru_epoch)} UTC "
-                "matched with more than one rise"
-            )
-            cursor.execute(
-                """
-            INSERT INTO storm (start_epoch, thru_epoch)
-            SELECT :start_epoch, :thru_epoch""",
-                {
-                    "start_epoch": storm_start_epoch,
-                    "thru_epoch": storm_thru_epoch,
-                },
-            )
-            cursor.execute(
-                """
-            INSERT INTO zeta_interval
-              (start_epoch, interval_type, thru_epoch)
-            VALUES
-              (:start_epoch, :interval_type, :thru_epoch)""",
-                {
-                    "interval_type": "storm",
-                    "start_epoch": jump_start_epoch,
-                    "thru_epoch": jump_thru_epoch,
-                },
-            )
-            cursor.execute(
-                """
-            INSERT INTO zeta_interval_storm
-              (interval_start_epoch, interval_type, storm_start_epoch)
-            VALUES
-              (:interval_start_epoch, :interval_type, :storm_start_epoch)""",
-                {
-                    "interval_type": "storm",
-                    "interval_start_epoch": jump_start_epoch,
-                    "storm_start_epoch": storm_start_epoch,
-                },
-            )
-        else:
-            print('jump is too small to be used with global P')
+        already_seen = cursor.execute(
+            """
+        SELECT EXISTS (
+            SELECT 1 FROM storm
+            WHERE start_epoch = :start_epoch
+            AND thru_epoch = :thru_epoch
+        )""",
+            {"start_epoch": storm_start_epoch, "thru_epoch": storm_thru_epoch},
+        ).fetchone()[0]
+        assert not already_seen, (
+            f"Storm at {convert_epoch_to_datetime_text(storm_start_epoch)}"
+            f"--{convert_epoch_to_datetime_text(storm_thru_epoch)} UTC "
+            "matched with more than one rise"
+        )
+        cursor.execute(
+            """
+        INSERT INTO storm (start_epoch, thru_epoch)
+        SELECT :start_epoch, :thru_epoch""",
+            {
+                "start_epoch": storm_start_epoch,
+                "thru_epoch": storm_thru_epoch,
+            },
+        )
+        cursor.execute(
+            """
+        INSERT INTO zeta_interval
+            (start_epoch, interval_type, thru_epoch)
+        VALUES
+            (:start_epoch, :interval_type, :thru_epoch)""",
+            {
+                "interval_type": "storm",
+                "start_epoch": jump_start_epoch,
+                "thru_epoch": jump_thru_epoch,
+            },
+        )
+        cursor.execute(
+            """
+        INSERT INTO zeta_interval_storm
+            (interval_start_epoch, interval_type, storm_start_epoch)
+        VALUES
+            (:interval_start_epoch, :interval_type, :storm_start_epoch)""",
+            {
+                "interval_type": "storm",
+                "interval_start_epoch": jump_start_epoch,
+                "storm_start_epoch": storm_start_epoch,
+            },
+        )
 
 
 def match_storms(rain, head, rain_threshold, jump_threshold):
@@ -557,7 +572,7 @@ def check_for_uniform_time_steps(epoch):
         raise ValueError("Nonuniform time steps in {}".format(sorted(set(delta_t))))
 
 
-def get_mystery_jump_mask(is_jump, is_raining, zeta_mm):
+def get_mystery_jump_mask(is_jump, is_raining):
     """Flag everything from a mystery jump until the next rain
 
     A "mystery jump" is a jump in head with no rain.  The returned
@@ -571,18 +586,13 @@ def get_mystery_jump_mask(is_jump, is_raining, zeta_mm):
     "mystery jump" (jump with no rain) and a rain event.
 
     """
-   
 
-    """SA! added zeta_mm to stop mystery_jumps sooner. Instead of classifying as a mysteryjump untill is_raining=True
-    now if it is not rising the mysterjump stops
-
-    """
     assert_equal(len(is_jump), len(is_raining))
     mystery_jump_mask = np.zeros(len(is_jump), bool)
     in_mystery = True
     # pylint: disable=consider-using-enumerate
     for i in range(len(mystery_jump_mask)):
-        if ((is_raining[i])): # or (zeta_mm[i] < zeta_mm[i-1])
+        if is_raining[i]: # or (zeta_mm[i] < zeta_mm[i-1]):
             in_mystery = False
         else:
             if is_jump[i]:
@@ -628,12 +638,3 @@ def assert_equal(a, b, message=None):  # pylint:disable=invalid-name
 def convert_epoch_to_datetime_text(epoch):
     """Convert UNIX epoch to ISO 8601 datetime text"""
     return datetime.datetime.fromtimestamp(epoch).strftime("%Y-%m-%d %H:%M:%S")
-
-
-#SA added, remove to debug in python
-#connection = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_classify_remove.sqlite3")
-#cursor = connection.cursor()
-#storm_rain_threshold_mm_h = 4.0
-#rising_jump_threshold_mm_h = 4.0
-#classify_intervals(connection, storm_rain_threshold_mm_h, rising_jump_threshold_mm_h)
-#print('1+1=2')
