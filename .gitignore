@@ -28,4 +28,6 @@ doc/
 *.sen
 *.seo
 *.dat
-
+*.ins
+*.obf
+*.tpl
