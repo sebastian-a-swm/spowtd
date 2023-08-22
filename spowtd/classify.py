@@ -110,7 +110,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     # until the next rain as a "mystery jump".
     rates = np.concatenate(([0], (zeta_mm[1:] - zeta_mm[:-1]) / (hour[1:] - hour[:-1])))
     is_jump = (rates > rising_jump_threshold_mm_h).astype(bool)
-    is_mystery_jump = get_mystery_jump_mask(is_jump, is_raining)
+    is_mystery_jump = get_mystery_jump_mask(is_jump, is_raining, zeta_mm) #SA! added zeta_mm to stop mystery_jumps sooner
     is_interstorm = (~is_mystery_jump) & (~is_raining)
     interval_mask = is_interstorm
     del is_raining
@@ -144,11 +144,30 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     #SA! Only inlcude recession events that last at least 24 hours - include diurnal effect on recession rate
     #SA! except if the initial zeta_mm value of the recession event belongs to the highest 10% of WL, then include without cropping
     #SA! Round/crop recession events to full days to even night and day time recession contribution
-    for indices in series_indices:
-        if (epoch[indices[-1]] - epoch[indices[0]] > 86400) | (zeta_mm[indices[0]] >= np.quantile(zeta_mm, 0.90)): # full day 86400  20 hours 72000
-            remainder = (epoch[indices[-1]] - epoch[indices[0]]) % 86400
-            if (epoch[indices[-1]] - epoch[indices[0]] > 86400):
-                epoch[indices[-1]] = epoch[indices[-1]] - remainder
+
+    duration_recession = 1
+
+    if duration_recession == 1:
+        for indices in series_indices:
+            if (epoch[indices[-1]] - epoch[indices[0]] > 86400) | (zeta_mm[indices[0]] >= np.quantile(zeta_mm, 0.90)): # full day 86400  20 hours 72000
+                remainder = (epoch[indices[-1]] - epoch[indices[0]]) % 86400
+                if (epoch[indices[-1]] - epoch[indices[0]] > 86400):
+                    epoch[indices[-1]] = epoch[indices[-1]] - remainder
+                cursor.execute(
+                    """
+                    INSERT INTO zeta_interval
+                        (start_epoch, interval_type, thru_epoch)
+                    SELECT
+                        :start_epoch, :interval_type, :thru_epoch
+                    """,
+                    {
+                        "interval_type": "interstorm",
+                        "start_epoch": int(epoch[indices[0]]),
+                        "thru_epoch": int(epoch[indices[-1]]),
+                    },
+                )
+    else:
+        for indices in series_indices:
             cursor.execute(
                 """
                 INSERT INTO zeta_interval
@@ -238,16 +257,16 @@ def match_all_storms(
         #SA! if the rise event is increasing but at a lower rate than the threshold
         #SA! and the storm event is longer than the rise event, extend to the storm event while increasing
 
-        for size in range(int((jump_start_epoch-storm_start_epoch)/1800)):
-            if zeta_mm[jump_start] > zeta_mm[jump_start-size]:
-                jump_start_epoch = int(jump_start_epoch-size*1800)
+        #for size in np.arange(1, int((jump_start_epoch-storm_start_epoch)/1800)):
+        #    if zeta_mm[jump_start] > zeta_mm[jump_start-size]:
+        #        jump_start_epoch = int(jump_start_epoch-(size-1)*1800)
 
-        for size in range(int((storm_thru_epoch-jump_thru_epoch)/1800)):
-            if zeta_mm[jump_stop] > zeta_mm[jump_stop+size]:
-                jump_thru_epoch = int(jump_thru_epoch+size*1800)
+        #for size in np.arange(1,int((storm_thru_epoch-jump_thru_epoch)/1800)):
+        #    if zeta_mm[jump_stop-1] > zeta_mm[jump_stop-1+size]:
+        #        jump_thru_epoch = int(jump_thru_epoch+size*1800)
 
         # SA! Ensure minimum time window for P contribution to jump is the time window of that jump
-        storm_start_epoch = int(np.min([storm_start_epoch,jump_start_epoch]))
+        storm_start_epoch = int(np.min([storm_start_epoch,jump_start_epoch])) # SA adjusted this from this [storm_start_epoch,jump_start_epoch]
         storm_thru_epoch = int(np.max([storm_thru_epoch-1800,jump_thru_epoch]))
 
         # SA! If the 2 hours before and/or after are still raining (P >= 0.5 mm/h) then extend the P time window
@@ -546,7 +565,8 @@ def find_stable_matching(storm_candidates, jump_preferences):
         if jump in matches:
             if jump_preferences[jump][storm] > jump_preferences[jump][matches[jump]]:
                 assert matches[jump] not in matchable_storms
-                matchable_storms.add(matches[jump])
+                #matchable_storms.add(matches[jump])
+                #storm_candidates[matches[jump]]=[matches[jump]]
                 matches[jump] = storm
                 storm_is_free = False
         else:
@@ -572,7 +592,7 @@ def check_for_uniform_time_steps(epoch):
         raise ValueError("Nonuniform time steps in {}".format(sorted(set(delta_t))))
 
 
-def get_mystery_jump_mask(is_jump, is_raining):
+def get_mystery_jump_mask(is_jump, is_raining, zeta_mm):
     """Flag everything from a mystery jump until the next rain
 
     A "mystery jump" is a jump in head with no rain.  The returned
@@ -587,15 +607,19 @@ def get_mystery_jump_mask(is_jump, is_raining):
 
     """
 
+    """SA! added zeta_mm to stop mystery_jumps sooner. Instead of classifying as a mysteryjump untill is_raining=True
+    now if it is not rising the mysterjump stops
+    """
+
     assert_equal(len(is_jump), len(is_raining))
     mystery_jump_mask = np.zeros(len(is_jump), bool)
     in_mystery = True
     # pylint: disable=consider-using-enumerate
     for i in range(len(mystery_jump_mask)):
-        if is_raining[i]: # or (zeta_mm[i] < zeta_mm[i-1]):
+        if is_raining[i] or (zeta_mm[i] < zeta_mm[i-1]):
             in_mystery = False
         else:
-            if is_jump[i]:
+            if is_jump[i] :
                 in_mystery = True
         mystery_jump_mask[i] = in_mystery
     # Test assertions in docstring: mystery_jump_mask is true at least

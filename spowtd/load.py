@@ -98,7 +98,7 @@ def populate_water_level(cursor, time_grid):
     )
     zeta_t, zeta_mm = zip(*cursor.fetchall())
     # Label times in the time grid with valid data intervals, starting
-    # from 1.  Invalid times are left with a NULL data interval.
+    # from 1.  Invalid times are left with a NULL data ifnterval.
     zeta_t = np.array(zeta_t)
     # Epoch is an integer
     assert np.issubdtype(time_grid.dtype, np.integer), time_grid.dtype
