@@ -52,7 +52,8 @@ def plot_time_series(
         cursor.execute("SELECT source_time_zone FROM time_grid")
         time_zone_name = cursor.fetchone()[0]
     time_zone = pytz.timezone(time_zone_name)
-
+    
+    fontsize=22
     fig = plt.figure()
     if plot_evapotranspiration:
         zeta_axes = fig.add_subplot(3, 1, 1)
@@ -64,10 +65,14 @@ def plot_time_series(
     else:
         zeta_axes = fig.add_subplot(2, 1, 1)
         rain_axes = fig.add_subplot(2, 1, 2, sharex=zeta_axes)
-        rain_axes.set_ylabel('Rainfall intensity, mm / h')
+        rain_axes.set_ylabel('Precipitation \nintensity [mm/h]', fontsize = fontsize)
     zeta_axes.xaxis_date(tz=time_zone)
-    zeta_axes.set_ylabel('Water level, cm')
+    #zeta_axes.set_xlabel('Datetime (month-day hour)', fontsize = fontsize) 
+    zeta_axes.set_ylabel('Water level \n[cm]', fontsize =fontsize)
+    zeta_axes.tick_params(axis ='both', labelsize =fontsize)
     rain_axes.xaxis_date(tz=time_zone)
+    rain_axes.set_xlabel('Datetime [month-day hour]', fontsize =fontsize)
+    rain_axes.tick_params(axis ='both', labelsize =fontsize)
 
     cursor.execute(
         """

@@ -15,11 +15,11 @@ import pandas as pd
 
 load = 1
 if load == 1:
-    connection = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_4C_OG.sqlite3")  # "/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3"
-    precipitation_data_file = open('/data/leuven/324/vsc32460/AC/spowtd/src/precipitation_Brunei_IMERG_CDF.txt', mode='r') #'/data/leuven/324/vsc32460/AC/spowtd/src/throughfall_Brunei_30min.txt' precipitation_Brunei_IMERG_CDF.txt
+    connection = sqlite3.connect("/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_throughfall_NOC_OG.sqlite3")  # "/data/leuven/324/vsc32460/AC/spowtd/Brunei100_44_GS_smooth_IMERG_load_remove.sqlite3"
+    precipitation_data_file = open('/data/leuven/324/vsc32460/AC/spowtd/src/throughfall_Brunei_30min.txt', mode='r') #'/data/leuven/324/vsc32460/AC/spowtd/src/throughfall_Brunei_30min.txt' precipitation_Brunei_IMERG_CDF.txt
     evapotranspiration_data_file = open('/data/leuven/324/vsc32460/AC/spowtd/src/evapotranspiration_no_intercep_Brunei_30min.txt') #'/data/leuven/324/vsc32460/AC/spowtd/src/evapotranspiration_no_intercep_Brunei_30min.txt'
     water_level_data_file = open('/data/leuven/324/vsc32460/AC/spowtd/src/waterlevel_Brunei_20min_3times_windowaverage_GS.txt') #'/data/leuven/324/vsc32460/AC/spowtd/src/waterlevel_Brunei_20min_3times_windowaverage_GS.txt'
-    time_zone_name = 'Asia/Brunei' #'Africa/Lagos' #'Asia/Brunei'
+    time_zone_name = 'Africa/Lagos' #'Africa/Lagos' #'Asia/Brunei'
     cursor = connection.cursor()
     load_data(connection,precipitation_data_file,evapotranspiration_data_file,water_level_data_file,time_zone_name,)
     storm_rain_threshold_mm_h = 4.0

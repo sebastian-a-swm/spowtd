@@ -88,7 +88,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
                 """
          SELECT water_level.epoch,
                 zeta_mm,
-                rainfall_intensity_mm_h > 0.5 AS is_raining
+                rainfall_intensity_mm_h > 0.0 AS is_raining
          FROM grid_time
          JOIN rainfall_intensity
            ON rainfall_intensity.from_epoch = grid_time.epoch
@@ -271,7 +271,7 @@ def match_all_storms(
 
         # SA! If the 2 hours before and/or after are still raining (P >= 0.5 mm/h) then extend the P time window
 	    # SA! Still manual adjustment needed when used with in situ precipitation/throughfall.
-        drizzling = 1
+        drizzling = 0
         if drizzling == 1:
             for i in range(4):
                 if (rainfall_intensity_mm_h[jump_start-i-1]) >= (0.5):

@@ -155,7 +155,7 @@ def compute_rise_offsets(cursor, reference_zeta_mm):
             del series_dictionary[element]
 
     # SA! remove unrealistic and outlier rise events
-    outliers_removal = 1
+    outliers_removal = 0
     if outliers_removal == 1:
 
         #SA! This part removes the unrealistic rise events by filtering for series_id with Sy > 1 and removing them.
