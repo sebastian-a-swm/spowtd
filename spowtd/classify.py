@@ -80,6 +80,10 @@ def populate_zeta_interval(
 
 def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     """Populate interstorm intervals"""
+
+    # SA! The rainfall_intensity_mm_h > is set at 0.5 mm/h to cope with drizzling, else at 0 mm/h
+    rainfall_threshold_mm_h = 0.0
+
     (epoch, zeta_mm, is_raining) = (
         np.array(v)
         for v in zip(
@@ -87,7 +91,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
                 """
          SELECT water_level.epoch,
                 zeta_mm,
-                rainfall_intensity_mm_h > 0 AS is_raining
+                rainfall_intensity_mm_h > ? AS is_raining
          FROM grid_time
          JOIN rainfall_intensity
            ON rainfall_intensity.from_epoch = grid_time.epoch
@@ -95,7 +99,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
          JOIN water_level
            ON rainfall_intensity.from_epoch = water_level.epoch
          ORDER BY from_epoch""",
-                (data_interval,),
+                (rainfall_threshold_mm_h,data_interval,),
             )
         )
     )
@@ -144,19 +148,46 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
 
     LOG.info("%s series found", len(series_indices))
 
-    for indices in series_indices:
-        cursor.execute(
-            """
-        INSERT INTO zeta_interval
-          (start_epoch, interval_type, thru_epoch)
-        SELECT
-          :start_epoch, :interval_type, :thru_epoch""",
-            {
-                "interval_type": "interstorm",
-                "start_epoch": int(epoch[indices[0]]),
-                "thru_epoch": int(epoch[indices[-1]]),
-            },
-        )
+    #SA! 1) Only inlcude recession events that last at least 24 hours - to include diurnal effect on recession rate -
+    #SA! except if the initial zeta_mm value of the recession event belongs to the highest 10% of WL, then include without cropping - specific case for Brunei short time series
+    #SA! 2) Round/crop recession events to full days to even night and day time recession contribution
+
+    duration_recession = 0
+
+    if duration_recession == 1:
+        for indices in series_indices:
+            if (epoch[indices[-1]] - epoch[indices[0]] > 86400) | (
+                    zeta_mm[indices[0]] >= np.quantile(zeta_mm, 0.90)):  # SA! full day 86400  20 hours 72000
+                remainder = (epoch[indices[-1]] - epoch[indices[0]]) % 86400
+                if (epoch[indices[-1]] - epoch[indices[0]] > 86400):
+                    epoch[indices[-1]] = epoch[indices[-1]] - remainder
+                cursor.execute(
+                    """
+                    INSERT INTO zeta_interval
+                        (start_epoch, interval_type, thru_epoch)
+                    SELECT
+                        :start_epoch, :interval_type, :thru_epoch
+                    """,
+                    {
+                        "interval_type": "interstorm",
+                        "start_epoch": int(epoch[indices[0]]),
+                        "thru_epoch": int(epoch[indices[-1]]),
+                    },
+                )
+    else:
+        for indices in series_indices:
+            cursor.execute(
+                """
+            INSERT INTO zeta_interval
+              (start_epoch, interval_type, thru_epoch)
+            SELECT
+              :start_epoch, :interval_type, :thru_epoch""",
+                {
+                    "interval_type": "interstorm",
+                    "start_epoch": int(epoch[indices[0]]),
+                    "thru_epoch": int(epoch[indices[-1]]),
+                },
+            )
     del hour, zeta_mm
     del series_indices
 
@@ -231,6 +262,41 @@ def match_all_storms(
         jump_thru_epoch = int(epoch[jump_stop - 1])
         # Duplicates are possible if multiple jumps match the same
         # storm
+
+        # SA! Ensure minimum time window for P contribution to jump is the time window of that jump
+        # SA! Also applied for throughfall, i.e., in situ data so no on/off switch
+        storm_start_epoch = int(np.min([storm_start_epoch,jump_start_epoch])) # SA adjusted this from this [storm_start_epoch,jump_start_epoch]
+        storm_thru_epoch = int(np.max([storm_thru_epoch-1800,jump_thru_epoch]))
+
+        # SA! If the 2 hours before and/or after are still raining (P >= 0.5 mm/h) then extend the P time window
+	    # SA! Still manual adjustment needed when used with in situ precipitation/throughfall.
+        drizzling = 0
+        if drizzling == 1:
+            for i in range(4):
+                if (rainfall_intensity_mm_h[jump_start-i-1]) >= (0.5):
+                    i=i
+                else:
+                    break
+
+            if ((i > 0) and (i<3)):
+                storm_start_epoch = int(epoch[jump_start-(i)])
+            elif (i == 3):
+                storm_start_epoch = int(epoch[jump_start - (i+1)])
+            else:
+                storm_start_epoch = storm_start_epoch
+
+            for j in range(4):
+                if (rainfall_intensity_mm_h[jump_stop+(j)]) >= (0.5):
+                    j=j
+                else:
+                    break
+
+            if storm_thru_epoch < int(epoch[jump_stop+(j-1)]):
+                storm_thru_epoch = int(epoch[jump_stop+(j)])
+            else:
+                storm_thru_epoch = storm_thru_epoch
+
+
         already_seen = cursor.execute(
             """
         SELECT EXISTS (

@@ -27,7 +27,7 @@ def get_series_time_offsets(series_list, head_step):
     return get_series_offsets(head_mapping, index_mapping)
 
 
-def get_series_offsets(head_mapping, index_mapping, covariance=None):
+def get_series_offsets(head_mapping, index_mapping, covariance=None, weight=None):
     """Find offsets that minimizes difference in head crossing times
 
     Given a sequence of (x, head) data series, rediscretize to get an
@@ -62,7 +62,7 @@ def get_series_offsets(head_mapping, index_mapping, covariance=None):
             (index_mapping[series_id], t_mean)
             for series_id, t_mean in crossings
         ]
-    return (original_indices, offsets, output_mapping)
+    return (original_indices, offsets, output_mapping, weight)
 
 
 def build_connected_head_mapping(series_list, head_step):

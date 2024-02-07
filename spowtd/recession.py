@@ -73,7 +73,7 @@ def compute_offsets(cursor, reference_zeta_mm):
             "Discrete water level interval not yet set"
         )
 
-    (indices, offsets, head_mapping) = get_series_time_offsets(
+    (indices, offsets, head_mapping, weight) = get_series_time_offsets(
         series, delta_z_mm
     )
 
