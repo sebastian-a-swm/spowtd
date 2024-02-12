@@ -5,11 +5,15 @@
 import logging
 
 import numpy as np
+import pandas as pd
+import copy
+import matplotlib.pyplot as plt
 
 from spowtd.fit_offsets import (
     assemble_weighted_linear_system,
     get_series_offsets,
     build_connected_head_mapping,
+    assemble_weighted_mean_matrix
 )
 
 
@@ -57,7 +61,8 @@ def get_series_storage_offsets(
 def get_rise_covariance(connection, recharge_error_weight):
     """Use database connection to build covariance of rise event errors"""
     cursor = connection.cursor()
-    series, _, _ = assemble_rise_series(cursor)
+    #SA! added additional output argument for the series_outliers that is returned from this function
+    series, _, _, _ = assemble_rise_series(cursor)
     head_step = get_head_step(cursor)
     cursor.close()
     head_mapping, index_mapping = build_connected_head_mapping(
@@ -137,12 +142,100 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
     longest assembled rise is used.
 
     """
-    series, epoch, zeta_intervals = assemble_rise_series(cursor)
+    series, series_outlier, epoch, zeta_intervals = assemble_rise_series(cursor)
     delta_z_mm = get_head_step(cursor)
+
     # Solve for offsets
     indices, offsets, zeta_mapping = get_series_storage_offsets(
         series, delta_z_mm, recharge_error_weight=recharge_error_weight
     )
+
+    indices_old=indices
+    zeta_mapping_old = zeta_mapping
+
+# START ------------------------------ #
+
+    #SA! The general approach of the changes included below is the following:
+    #SA! First an additional series is created including information on the specific yield
+    #SA! Second a dictionary is created from the series to hold the original index as a key throughout the elimination process
+    #SA! Third is the removal process: 1) events that are excluded during the offset calculation are removed from the series,
+    #SA! 2) unrealistic events (Sy>1) are removed, 3) outlier detection and removal, and 4) events excluded during recalculation of offsets are removed
+
+    # create a series_dictionary from the list to maintain the indices as a key value throughout the elimination process from the series
+    indices_outlier = list(range(len(series)))
+    series_dictionary = {}
+    series_copy = copy.deepcopy(series)
+    for key in indices_outlier:
+        for value in series_copy:
+            series_dictionary[key] = value
+            series_copy.remove(value)
+            #zeta_intervals.remove(value)
+            break
+    series_dictionary
+
+    if len(indices) != len(series):
+        drop_1 = list(sorted(set(range(len(series)))-set(indices)))
+        for element in sorted(drop_1, reverse=True):
+            del series_dictionary[element]
+            #del zeta_intervals[element]
+
+    # SA! remove unrealistic and outlier rise events
+    outliers_removal = 0
+    #SA! remove this variable if iteration is included, it is temporary defined here
+    # remove
+    observed_recharge = True
+    if outliers_removal == 1 and observed_recharge == True:
+        #SA! This part removes the unrealistic rise events by filtering for series_id with Sy > 1 and removing them.
+        #SA! Create an ndarray with the index of all series_ids to remove
+        drop_2 = np.empty((0), dtype=int)
+        for index, (t, H, Sy) in enumerate(series_outlier):
+            if Sy > 1:
+                drop_2 = np.append(drop_2, index)
+
+        #SA! loop over ndarray in reverse order to maintain index position while removing
+        #SA! remove from variables: series, indices and zeta_mapping (via crossing)
+        for k in sorted(drop_2, reverse=True):
+            try:
+                #del zeta_intervals[indices.index(k)]
+                indices.remove(k)
+                del series_dictionary[k]
+            except:
+                print('This index is already removed from series')
+            for discrete_zeta, crossings in zeta_mapping.items():
+                for series_id, mean_crossing_depth_mm in crossings:
+                    if k == series_id:
+                        for i in range(len(crossings)):
+                            if len(crossings) <= i:
+                                continue
+                            elif k in crossings[i]:
+                                del crossings[i]
+
+
+
+    series_copy = list(series_dictionary.values())
+    series=series_copy
+
+    #SA! This solves for the offsets again after removing unrealistic and outlier events from series.
+    #SA! Creates a copy of zeta_mapping and indices because the original with removed events are used.
+    indices_copy, offsets, zeta_mapping_copy = get_series_storage_offsets(
+        series_copy, delta_z_mm, recharge_error_weight=recharge_error_weight)
+
+    #SA! If additional series_ids were removed from offsets (necessary overlap of events)
+    #SA! Check this series_id and drop all zeta_mm from zeta_mappings with this series_id and from the indices.
+    for key in (zeta_mapping.keys() - zeta_mapping_copy.keys()):
+        zeta_mapping.pop(key,None)
+    unique_ids = []
+    if len(indices) != len(offsets):
+        for discrete_zeta, crossings in zeta_mapping.items():
+            for series_id, mean_crossing_depth_mm in crossings:
+                unique_ids.append(series_id)
+        missing = list(sorted((set(indices))-(set(unique_ids))))
+        for ele in missing:
+            indices.remove(ele)
+
+
+# STOP ------------------------------ #
+
 
     reference_zeta_off_grid = (
         reference_zeta_mm is not None
@@ -165,6 +258,10 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
         ]
     ).mean()
 
+    master_rise_crossing_depth_mm = weighted_master_rise_storage(
+        indices, offsets, mean_zero_crossing_depth_mm, zeta_mapping, recharge_error_weight
+    )
+
     for i, series_id in enumerate(indices):
         interval = zeta_intervals[series_id]
         del series_id
@@ -182,6 +279,25 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
             },
         )
         del interval
+
+    #SA! added to write out the weighted master rise curve for plotting, only if recharge error weight is not 0
+    if recharge_error_weight != 0:
+        for discrete_zeta, crossings in zeta_mapping_old.items():
+            master_rise_crossing_depth = next((arr[0] for t, arr in master_rise_crossing_depth_mm if t == discrete_zeta), None)
+            cursor.execute(
+                """ 
+            INSERT INTO rising_interval_zeta_weighted (
+                zeta_number,
+                master_rise_crossing_depth_mm)
+            SELECT  :discrete_zeta,
+                    :master_rise_crossing_depth_mm""",
+                {
+                    'discrete_zeta': discrete_zeta,
+                    'master_rise_crossing_depth_mm': master_rise_crossing_depth,
+                },
+            )
+            del discrete_zeta, crossings
+
 
     for discrete_zeta, crossings in zeta_mapping.items():
         for series_id, mean_crossing_depth_mm in crossings:
@@ -204,6 +320,33 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
             del mean_crossing_depth_mm, interval
         del discrete_zeta, crossings
     cursor.close()
+
+#SA! calculation of weighted master rise curve storage offsets
+def weighted_master_rise_storage(indices, offsets, mean_zero_crossing_depth_mm, zeta_mapping, recharge_error_weight):
+
+    rain_depth_offset_mm = offsets - mean_zero_crossing_depth_mm
+    rain_depth_offset_mm = np.stack((np.array(indices).T,rain_depth_offset_mm.T), axis = 0)
+
+    var_s = recharge_error_weight ** -2
+    master_rise_crossing_depth_mm = []
+    for discrete_zeta, crossings in sorted(zeta_mapping.items()):
+        value_sum = 0
+        weight_sum = 0
+        for series_id, mean_crossing_depth_mm in crossings:
+            all_inverse_variances = np.array(
+                [1 / (mean_crossing_depth_mm**2 + var_s)],
+                dtype=float,
+            )
+            value = rain_depth_offset_mm[1, np.where(rain_depth_offset_mm[0] == series_id)[0]] + mean_crossing_depth_mm
+            weight_sum += float(all_inverse_variances)
+            value_sum += value*float(all_inverse_variances)
+        master_zeta_value=value_sum/weight_sum
+        master_rise_crossing_depth_mm.append([discrete_zeta,master_zeta_value])
+    #print(master_rise_crossing_depth_mm)
+
+    M = assemble_weighted_mean_matrix(zeta_mapping, recharge_error_weight)
+
+    return master_rise_crossing_depth_mm
 
 
 def get_head_step(cursor):
@@ -262,6 +405,8 @@ JOIN zeta_interval AS zi
 ORDER BY s.start_epoch"""
     )
     series = []
+    # SA! added series_outlier for removal
+    series_outlier = []
     rain_intervals = []
     zeta_intervals = []
     for (
@@ -303,6 +448,11 @@ ORDER BY s.start_epoch"""
         series.append(
             (np.array((0, total_depth)), np.array((initial_zeta, final_zeta)))
         )
+        # SA! Create an ndarray that includes Sy to filter out rise events based on Sy
+        series_outlier.append(
+            (np.array((0, total_depth)), np.array((initial_zeta, final_zeta)), total_depth/(final_zeta-initial_zeta))
+        )
+
 
     del zeta_mm
-    return series, epoch, zeta_intervals
+    return series, series_outlier, epoch, zeta_intervals

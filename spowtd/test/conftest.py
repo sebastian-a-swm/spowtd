@@ -37,7 +37,7 @@ def persistent_loaded_connection(request):
 
     """
     with sqlite3.connect(
-        ':memory:', autocommit=False
+        ':memory:'
     ) as persistent_connection:
         sample = request.param
         with open(
