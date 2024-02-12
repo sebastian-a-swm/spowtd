@@ -19,12 +19,13 @@ def simulate_rise(connection, parameters, outfile, observations_only):
     specific_yield = specific_yield_mod.create_specific_yield_function(
         sy_parameters
     )
+    #SA! changed below average_rising_depth to average_rising_depth_weighted
     cursor = connection.cursor()
     cursor.execute(
         """
     SELECT mean_crossing_depth_mm AS dynamic_storage_mm,
            zeta_mm
-    FROM average_rising_depth
+    FROM average_rising_depth_weighted
     ORDER BY zeta_mm"""
     )
     (avg_storage_mm, avg_zeta_mm) = (

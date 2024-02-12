@@ -217,9 +217,7 @@ def assemble_rise_covariance(
         for head_id, series_at_head in head_mapping.items()
         for series_id, _ in series_at_head
     }
-    #SA! added tolerance to cope with rounding errors of np in python and allow assertion to pass
-    tolerance = 1e-10
-    assert min(coef.values()) >= -0.5 - tolerance, min(coef.values())
+    assert min(coef.values()) >= -0.5, min(coef.values())
     assert max(coef.values()) <= 0.5, max(coef.values())
 
     # To compute the terms in the covariance matrix, we need sets of heads
@@ -238,9 +236,25 @@ def assemble_rise_covariance(
 
     #SA! added to calculate the weight variable for the weighted plotting of the master rise curve
     weight = {}
+    sum_weights_per_head = {}
     for series_id, head_ids in series_heads.items():
         for head_id in head_ids:
-            weight[series_id, head_id] = normalized_rain_depth[series_id]*coef[(head_id,series_id)]
+            weight[series_id, head_id] = 1/(rain_depth[series_id]*coef[(head_id,series_id)])**2+recharge_error_weight**(-2)
+
+            # Add the weight to the sum for this head_id
+            if head_id not in sum_weights_per_head:
+                sum_weights_per_head[head_id] = 0
+            sum_weights_per_head[head_id] += weight[series_id, head_id]
+
+    # Divide each weight at a series_id and head_id combination by the sum_weights_per_head_id for the corresponding head
+    # Now weight contains weights normalized per head_id
+    for (series_id, head_id), weight_value in weight.items():
+        # Divide the weight by the sum for this head_id
+        weight[series_id, head_id] /= sum_weights_per_head[head_id]
+    assert max(weight.values()) <= 1.0, max(weight.values())
+    assert min(weight.values()) >= 0.0, min(weight.values())
+
+
 
     #SA! to calculate the average Sy of the master rise curve for the range of water levels that an event j spans
     #SA! only applied if it is NOT the first weight calculation, i.e., observed recharge is False
@@ -283,7 +297,7 @@ def assemble_rise_covariance(
     if observed_recharge == False:
         Rff = Rff_app
     else:
-        print('First iteration, use observed recharge')
+        print('No iteration, still using observed recharge')
 
 
     # Populate covariance matrix
@@ -376,7 +390,7 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0, Sy_
             #del zeta_intervals[element]
 
     # SA! remove unrealistic and outlier rise events
-    outliers_removal = 0
+    outliers_removal = 1
     if outliers_removal == 1 and observed_recharge == True:
         #SA! This part removes the unrealistic rise events by filtering for series_id with Sy > 1 and removing them.
         #SA! Create an ndarray with the index of all series_ids to remove
@@ -403,58 +417,7 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0, Sy_
                             elif k in crossings[i]:
                                 del crossings[i]
 
-        #SA! This part identifies outliers at each zeta_mm increment based on the Sy values and adds the series_id of the outlier to a counting array
-        #SA! At each zeta_mm increment dataframe with series_id and Sy value are created
-        outlier_count = np.empty((0, 2), dtype=float)
-        zeta_step_sy = []
-        occurence_count = []
-        for discrete_zeta, crossings in zeta_mapping.items():
-            for series_id, mean_crossing_depth_mm in crossings:
-                occurence_count.append(series_id)
-                for index, (t, H, Sy) in enumerate(series_outlier):
-                    if index == series_id:
-                        for i in range(len(crossings)):
-                            if index in crossings[i]:
-                                specific_yield = np.array([series_id,Sy])
-                zeta_step_sy.append(specific_yield.copy())
-            df= pd.DataFrame(list(map(np.ravel, zeta_step_sy)), columns=['series_id','Sy'])
-            zeta_step_sy=[]
 
-            #SA! At each zeta_mm increment determine Sy outliers and add the series_id to the counting array
-            #SA! If there are less than 5 events on the zeta_m apply boxplot outlier detection
-            #SA! if there are 5 or more apply the 95th and 5th percentile outlier detection
-            if len(df) >= 5:
-                highest_allowed = df['Sy'].quantile(0.95)
-                lowest_allowed = df['Sy'].quantile(0.05)
-            else:
-                IQR = df['Sy'].quantile(0.75)- df['Sy'].quantile(0.25)
-                highest_allowed = df['Sy'].quantile(0.75) + 1.5*(IQR)
-                lowest_allowed = df['Sy'].quantile(0.25) - 1.5*(IQR)
-            df_outliers = df[(df['Sy'] > highest_allowed) | (df['Sy'] < lowest_allowed)]
-            outlier_count = np.append(outlier_count, df_outliers.to_numpy(), axis =0)
-
-        #SA! This part creates an ndarray with the outlier series_id based on the count
-        drop_3 = np.empty((0), dtype=int)
-        for j in range(len(series_dictionary)):
-            how_many = np.count_nonzero(outlier_count[:,0] == j)
-            total = np.array(occurence_count)
-            if (how_many/(np.count_nonzero(total[:] == j)+0.000000001) > 1/2):
-                drop_3 = np.append(drop_3, j)
-
-        # SA! loop over ndarray in reverse order to maintain index position while removing
-        # SA! remove from variables: series, indices and zeta_mapping (via crossing)
-        for z in sorted(drop_3, reverse=True):
-            #del zeta_intervals[indices.index(z)]
-            del series_dictionary[z]
-            indices.remove(z)
-            for discrete_zeta, crossings in zeta_mapping.items():
-                for series_id, mean_crossing_depth_mm in crossings:
-                    if z == series_id:
-                        for i in range(len(crossings)):
-                            if len(crossings) <= i:
-                                continue
-                            elif z in crossings[i]:
-                                del crossings[i]
 
     series_copy = list(series_dictionary.values())
     series=series_copy
@@ -518,7 +481,7 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0, Sy_
 
 
         #SA! SWITCH TO TURN OF ITERATION --> TRUE = OFF     FALSE = ON
-        observed_recharge = True
+        observed_recharge = False
 
 
         count = 1
@@ -564,23 +527,23 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0, Sy_
             if Sy_diff >= 0.5:
                 Sy_previous = Sy
                 master_rise_crossing_depth_mm_previous = master_rise_crossing_depth_mm
-                print('This is iteration number ' + str(count) + ', not converged yet.')
+                print('This is iteration number ' + str(count-1) + ', not converged yet.')
             else:
                 observed_recharge = None
-                print('An equilibrium (=converged) was reached after ' + str(count) + ' iterations.')
+                print('An equilibrium (=converged) was reached after ' + str(count-1) + ' iterations.')
 
         for i, data_list in enumerate(all_master_rise):
             column1_data = [point[0] for point in data_list]
             column2_data = [point[1] for point in data_list]
 
-            plt.plot(column2_data, column1_data, label=f'Iteration {i + 1} ')
+            plt.plot(column2_data, column1_data, label=f'Iteration {i} ')
 
         # Add labels and legend to the plot
         plt.xlabel('Dynamic storage (mm)')
         plt.ylabel('WL (mm)')
         plt.title('Master rise curve iterations')
         plt.legend()
-        #plt.show()
+        plt.show()
 
     for i, series_id in enumerate(indices_old):
         interval = zeta_intervals[series_id]
@@ -672,17 +635,13 @@ def get_master_rise_curve(indices, offsets, mean_zero_crossing_depth_mm, zeta_ma
     master_rise_crossing_depth_mm = []
     for discrete_zeta, crossings in zeta_mapping.items():
         value_sum = 0
-        weight_sum = 0
         for series_id, mean_crossing_depth_mm in crossings:
             # find the weight linked a (discrete_zeta, series_id) combination
             if (indices.index(series_id), discrete_zeta) in weight:
-                weight_app = 1/abs(weight[(indices.index(series_id),discrete_zeta)])
-                if weight_app == float('inf'):
-                    weight_app = 1
+                weight_app = (weight[(indices.index(series_id),discrete_zeta)])
             value = rain_depth_offset_mm[1, np.where(rain_depth_offset_mm[0] == series_id)[0]] + mean_crossing_depth_mm
-            weight_sum += weight_app
-            value_sum += value*weight_app
-        master_zeta_value=value_sum/weight_sum
+            value_sum +=(value*weight_app)
+        master_zeta_value=value_sum
         master_rise_crossing_depth_mm.append([discrete_zeta,master_zeta_value])
     #print(master_rise_crossing_depth_mm)
 
