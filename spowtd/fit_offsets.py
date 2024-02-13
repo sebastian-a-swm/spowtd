@@ -27,7 +27,7 @@ def get_series_time_offsets(series_list, head_step):
     return get_series_offsets(head_mapping, index_mapping)
 
 
-def get_series_offsets(head_mapping, index_mapping, recharge_error_weight=0):
+def get_series_offsets(series_list, head_mapping, index_mapping, recharge_error_weight=0, head_step=0):
     """Find offsets that minimizes difference in head crossing times
 
     Given a sequence of (x, head) data series, rediscretize to get an
@@ -51,7 +51,10 @@ def get_series_offsets(head_mapping, index_mapping, recharge_error_weight=0):
     This function is used in assembly of both recession and rise curves.
 
     """
-    series_ids, offsets = find_offsets(head_mapping, recharge_error_weight)
+    #SA! added
+    Rfij = calculate_Rfij(series_list, head_mapping, index_mapping, head_step)
+
+    series_ids, offsets = find_offsets(head_mapping, recharge_error_weight, Rfij)
     assert len(series_ids) == len(offsets)
     original_indices = [index_mapping[series_id] for series_id in series_ids]
     # We need to map series ids in head_mapping back to their original
@@ -157,7 +160,7 @@ def build_exhaustive_head_mapping(series, head_step=1):
     return head_mapping
 
 
-def find_offsets(head_mapping, recharge_error_weight=0):
+def find_offsets(head_mapping, recharge_error_weight=0, Rfij=0):
     """Find the time offsets that align the series in head_mapping
 
     Finds the set of time offsets that minimize the sum of squared differences
@@ -196,6 +199,7 @@ def find_offsets(head_mapping, recharge_error_weight=0):
             head_mapping,
             series_indices,
             recharge_error_weight=recharge_error_weight,
+            Rfij=Rfij
         )
         assert Omega.shape == (len(b), len(b))
         offsets = gls_solve(A, b, Omega)
@@ -222,7 +226,7 @@ def assemble_event_incidence_matrix(head_mapping):
     return np.array(D, dtype=int)
 
 
-def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight):
+def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight, Rfij):
     """Assemble weighted mean operator matrix M
 
     Recharge_error_weight (typical order might be 1e3) is the relative weight
@@ -258,7 +262,7 @@ def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight):
     k = 0
     for head_id, series_at_head in sorted(head_mapping.items()):
         all_inverse_variances = np.array(
-            [1 / (rij**2 + var_s) for sid, rij in series_at_head],
+            [1 / (Rfij[(head_id,sid)]**2 + var_s) for sid, rij in series_at_head],
             dtype=float,
         )
         nonzero_terms = all_inverse_variances / all_inverse_variances.sum()
@@ -338,7 +342,7 @@ def assemble_linear_system(
 
 
 def assemble_weighted_linear_system(
-    head_mapping, series_indices, recharge_error_weight
+    head_mapping, series_indices, recharge_error_weight, Rfij
 ):
     """Assemble linear system for fitting offsets with weighting
 
@@ -371,7 +375,7 @@ def assemble_weighted_linear_system(
         '%s equations, %s unknowns', number_of_equations, number_of_unknowns
     )
     D = assemble_event_incidence_matrix(head_mapping)
-    M = assemble_weighted_mean_matrix(head_mapping, recharge_error_weight)
+    M = assemble_weighted_mean_matrix(head_mapping, recharge_error_weight, Rfij)
     assert M.shape == (D.shape[0], D.shape[0])
     dev = np.identity(D.shape[0]) - M
     assert dev.shape == (D.shape[0], D.shape[0])
@@ -530,3 +534,54 @@ def get_connected_components(head_mapping):
         head_mapping
     )
     return connected_components
+
+def calculate_Rfij(series, head_mapping, index_mapping, head_step):
+    # Assemble mapping of series ids to row numbers (unknowns) for the offset-
+    #   finding problem.  Note that these are not the same as indices in the
+    #   series list, which must be obtained via index_mapping:
+    #   a_series = series[index_mapping[series_id]]
+    series_ids = sorted(
+        set().union(
+            *(
+                (series_id for series_id, _ in seq)
+                for seq in list(head_mapping.values())
+            )
+        )
+    )
+    # R[j]
+    rain_depth = {
+        # Retrieving rain depth: obtain index, retrieve series;
+        #   total_depth is the 2nd element of the first tuple
+        series_id: series[index_mapping[series_id]][0][1]
+        for series_id in series_ids
+    }
+    rise = {
+        # Retrieving rise: obtain index, retrieve series;
+        #   initial_zeta, final_zeta is the second tuple
+        series_id: (
+                series[index_mapping[series_id]][1][1]
+                - series[index_mapping[series_id]][1][0]
+        )
+        for series_id in series_ids
+    }
+    # zeta_bar
+    mean_zeta = {
+        series_id: sum(series[index_mapping[series_id]][1]) / 2
+        for series_id in series_ids
+    }
+    # f[i, j]
+    coef = {
+        (head_id, series_id): (head_id * head_step - mean_zeta[series_id])
+                              / rise[series_id]
+        for head_id, series_at_head in head_mapping.items()
+        for series_id, _ in series_at_head
+    }
+    assert min(coef.values()) >= -0.5, min(coef.values())
+    assert max(coef.values()) <= 0.5, max(coef.values())
+
+    Rfij = {}
+    for discrete_zeta, sids in coef.keys():
+        Rfij[discrete_zeta,sids] = rain_depth[sids]*coef[(discrete_zeta,sids)]
+
+    return Rfij
+

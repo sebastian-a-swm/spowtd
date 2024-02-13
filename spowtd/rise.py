@@ -13,7 +13,8 @@ from spowtd.fit_offsets import (
     assemble_weighted_linear_system,
     get_series_offsets,
     build_connected_head_mapping,
-    assemble_weighted_mean_matrix
+    assemble_weighted_mean_matrix,
+    calculate_Rfij
 )
 
 
@@ -37,7 +38,7 @@ def find_rise_offsets(
 
 
 def get_series_storage_offsets(
-    series_list, head_step, recharge_error_weight=0
+    series_list, head_step, recharge_error_weight=0,
 ):
     """Find a storage offset that minimizes difference in head crossing times
 
@@ -52,9 +53,11 @@ def get_series_storage_offsets(
         series_list, head_step
     )
     return get_series_offsets(
+        series_list,
         head_mapping,
         index_mapping,
         recharge_error_weight=recharge_error_weight,
+        head_step=head_step
     )
 
 
@@ -103,14 +106,17 @@ def assemble_rise_covariance(
     it positive definite.
 
     """
+
+    Rfij = calculate_Rfij(series, head_mapping, index_mapping)
+
     check_rise_head_mapping(head_mapping, series, index_mapping, head_step)
     _, _, Omega = assemble_weighted_linear_system(
         head_mapping,
         index_mapping,
         recharge_error_weight=recharge_error_weight,
+        Rfij=Rfij
     )
     return Omega
-
 
 def check_rise_head_mapping(head_mapping, series, index_mapping, head_step):
     """Check head mapping for rise curve assembly
@@ -180,7 +186,7 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
             #del zeta_intervals[element]
 
     # SA! remove unrealistic and outlier rise events
-    outliers_removal = 0
+    outliers_removal = 1
     #SA! remove this variable if iteration is included, it is temporary defined here
     # remove
     observed_recharge = True
@@ -258,9 +264,27 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
         ]
     ).mean()
 
-    master_rise_crossing_depth_mm = weighted_master_rise_storage(
-        indices, offsets, mean_zero_crossing_depth_mm, zeta_mapping, recharge_error_weight
-    )
+    #SA! added to calculate and write out the weighted master rise curve for plotting, only if recharge error weight is not 0
+    if recharge_error_weight != 0:
+        master_rise_crossing_depth_mm = weighted_master_rise_storage(
+            indices, offsets, mean_zero_crossing_depth_mm, zeta_mapping, recharge_error_weight
+        )
+
+        for discrete_zeta, crossings in zeta_mapping_old.items():
+            master_rise_crossing_depth = next((arr[0] for t, arr in master_rise_crossing_depth_mm if t == discrete_zeta), None)
+            cursor.execute(
+                """ 
+            INSERT INTO rising_interval_zeta_weighted (
+                zeta_number,
+                master_rise_crossing_depth_mm)
+            SELECT  :discrete_zeta,
+                    :master_rise_crossing_depth_mm""",
+                {
+                    'discrete_zeta': discrete_zeta,
+                    'master_rise_crossing_depth_mm': master_rise_crossing_depth,
+                },
+            )
+            del discrete_zeta, crossings
 
     for i, series_id in enumerate(indices):
         interval = zeta_intervals[series_id]
@@ -279,24 +303,6 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
             },
         )
         del interval
-
-    #SA! added to write out the weighted master rise curve for plotting, only if recharge error weight is not 0
-    if recharge_error_weight != 0:
-        for discrete_zeta, crossings in zeta_mapping_old.items():
-            master_rise_crossing_depth = next((arr[0] for t, arr in master_rise_crossing_depth_mm if t == discrete_zeta), None)
-            cursor.execute(
-                """ 
-            INSERT INTO rising_interval_zeta_weighted (
-                zeta_number,
-                master_rise_crossing_depth_mm)
-            SELECT  :discrete_zeta,
-                    :master_rise_crossing_depth_mm""",
-                {
-                    'discrete_zeta': discrete_zeta,
-                    'master_rise_crossing_depth_mm': master_rise_crossing_depth,
-                },
-            )
-            del discrete_zeta, crossings
 
 
     for discrete_zeta, crossings in zeta_mapping.items():
@@ -327,14 +333,13 @@ def weighted_master_rise_storage(indices, offsets, mean_zero_crossing_depth_mm, 
     rain_depth_offset_mm = offsets - mean_zero_crossing_depth_mm
     rain_depth_offset_mm = np.stack((np.array(indices).T,rain_depth_offset_mm.T), axis = 0)
 
-    var_s = recharge_error_weight ** -2
     master_rise_crossing_depth_mm = []
     for discrete_zeta, crossings in sorted(zeta_mapping.items()):
         value_sum = 0
         weight_sum = 0
         for series_id, mean_crossing_depth_mm in crossings:
             all_inverse_variances = np.array(
-                [1 / (mean_crossing_depth_mm**2 + var_s)],
+                [1 / (mean_crossing_depth_mm**2 + recharge_error_weight**(-2))],
                 dtype=float,
             )
             value = rain_depth_offset_mm[1, np.where(rain_depth_offset_mm[0] == series_id)[0]] + mean_crossing_depth_mm
@@ -344,7 +349,7 @@ def weighted_master_rise_storage(indices, offsets, mean_zero_crossing_depth_mm, 
         master_rise_crossing_depth_mm.append([discrete_zeta,master_zeta_value])
     #print(master_rise_crossing_depth_mm)
 
-    M = assemble_weighted_mean_matrix(zeta_mapping, recharge_error_weight)
+    #M = assemble_weighted_mean_matrix(zeta_mapping, recharge_error_weight, Rfij)
 
     return master_rise_crossing_depth_mm
 

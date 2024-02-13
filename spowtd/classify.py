@@ -82,7 +82,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     """Populate interstorm intervals"""
 
     # SA! The rainfall_intensity_mm_h > is set at 0.5 mm/h to cope with drizzling, else at 0 mm/h
-    rainfall_threshold_mm_h = 0.0
+    rainfall_threshold_mm_h = 0.5
 
     (epoch, zeta_mm, is_raining) = (
         np.array(v)
@@ -152,7 +152,7 @@ def classify_interstorms(cursor, data_interval, rising_jump_threshold_mm_h):
     #SA! except if the initial zeta_mm value of the recession event belongs to the highest 10% of WL, then include without cropping - specific case for Brunei short time series
     #SA! 2) Round/crop recession events to full days to even night and day time recession contribution
 
-    duration_recession = 0
+    duration_recession = 1
 
     if duration_recession == 1:
         for indices in series_indices:
@@ -265,14 +265,14 @@ def match_all_storms(
 
         # SA! Ensure minimum time window for P contribution to jump is the time window of that jump
         # SA! Also applied for throughfall, i.e., in situ data so no on/off switch
-        P_extension = 0
+        P_extension = 1
         if P_extension == 1:
             storm_start_epoch = int(np.min([storm_start_epoch,jump_start_epoch])) # SA adjusted this from this [storm_start_epoch,jump_start_epoch]
             storm_thru_epoch = int(np.max([storm_thru_epoch-1800,jump_thru_epoch]))
 
         # SA! If the 2 hours before and/or after are still raining (P >= 0.5 mm/h) then extend the P time window
 	    # SA! Still manual adjustment needed when used with in situ precipitation/throughfall.
-        drizzling = 0
+        drizzling = 1
         if drizzling == 1:
             for i in range(4):
                 if (rainfall_intensity_mm_h[jump_start-i-1]) >= (0.5):
