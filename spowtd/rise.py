@@ -49,16 +49,41 @@ def get_series_storage_offsets(
     is assembled and used when solving the rise curve assembly problem.
 
     """
-    head_mapping, index_mapping = build_connected_head_mapping(
-        series_list, head_step
-    )
-    return get_series_offsets(
-        series_list,
-        head_mapping,
-        index_mapping,
-        recharge_error_weight=recharge_error_weight,
-        head_step=head_step
-    )
+    test = 1
+
+    if test == 1:
+        if recharge_error_weight:
+            assert all(recharge[0] == 0 for recharge, _ in series_list)
+            displacements = [-recharge[1] / 2 for recharge, _ in series_list]
+            series_list_copy =series_list
+            series_list = [(np.array([recharge[0] + displacements[i], recharge[1] + displacements[i]]), rise) for i, (recharge, rise) in enumerate(series_list)]
+        head_mapping, index_mapping = build_connected_head_mapping(
+            series_list, head_step
+        )
+        indices, offsets, head_mapping = get_series_offsets(
+            series_list,
+            head_mapping,
+            index_mapping,
+            recharge_error_weight=recharge_error_weight,
+            head_step=head_step
+        )
+        if recharge_error_weight:
+            assert len(indices) == len(offsets)
+            for i, index in enumerate(indices):
+                offsets[i] -= displacements[index]
+        return (indices, offsets, head_mapping)
+
+    if test == 0:
+        head_mapping, index_mapping = build_connected_head_mapping(
+            series_list, head_step
+        )
+        return get_series_offsets(
+            series_list,
+            head_mapping,
+            index_mapping,
+            recharge_error_weight=recharge_error_weight,
+            head_step=head_step
+        )
 
 
 def get_rise_covariance(connection, recharge_error_weight):
@@ -264,12 +289,100 @@ def compute_rise_offsets(cursor, reference_zeta_mm, recharge_error_weight=0):
         ]
     ).mean()
 
-    #SA! added to calculate and write out the weighted master rise curve for plotting, only if recharge error weight is not 0
+
+    #SA! added to calculate out the weighted master rise curve for plotting, only if recharge error weight is not 0
     if recharge_error_weight != 0:
-        master_rise_crossing_depth_mm = weighted_master_rise_storage(
+        Sy, master_rise_crossing_depth_mm = weighted_master_rise_storage(
             indices, offsets, mean_zero_crossing_depth_mm, zeta_mapping, recharge_error_weight
         )
 
+        all_master_rise = []
+        all_master_rise.append(master_rise_crossing_depth_mm)
+
+        Sy_previous=Sy
+        master_rise_crossing_depth_mm_previous=master_rise_crossing_depth_mm
+
+
+    # SA! SWITCH TO TURN OF ITERATION --> TRUE = OFF     FALSE = ON
+    observed_recharge = False
+
+    if observed_recharge == False:
+        count = 1
+        while observed_recharge == False:
+
+            series_heads = {}
+            for head_id, series_at_head in zeta_mapping_old.items():
+                for sid, _ in series_at_head:
+                    series_heads.setdefault(sid, []).append(head_id)
+
+            # Average Sy of the master rise curve for all individual events
+            Sy_avg = {}
+            for series_id, head_ids in series_heads.items():
+                min_WL = min(head_ids)
+                max_WL = max(head_ids)
+                Sy_avg[series_id] = abs(
+                    next((item[1] for item in master_rise_crossing_depth_mm_previous if item[0] == min_WL),
+                         None) - next((item[1] for item in master_rise_crossing_depth_mm_previous if item[0] == max_WL),
+                                      None)
+                ) / (abs(min_WL - max_WL))
+
+            series_dictionary_app = {}
+            for sids, events in series_dictionary.items():
+                Sy_master = Sy_avg[sids][0]/(abs(events[0][1]-events[0][0])/abs(events[1][1]-events[1][0]))
+                recharge_app = events[0][1]*Sy_master
+                series_dictionary_app.setdefault(sids,(np.array([events[0][0],recharge_app]), np.array([events[1][0],events[1][1]])))
+
+            series_app = list(series_dictionary_app.values())
+
+            indices_app, offsets_app, zeta_mapping_app = get_series_storage_offsets(
+                series_app, delta_z_mm, recharge_error_weight=recharge_error_weight)
+
+
+            reference_zeta_off_grid = (
+                    reference_zeta_mm is not None
+                    and not np.allclose(reference_zeta_mm % delta_z_mm, 0)
+            )
+            if reference_zeta_off_grid:
+                raise ValueError(
+                    'Reference zeta {} mm not evenly divisible by '
+                    'zeta step {} mm'.format(reference_zeta_mm, delta_z_mm)
+                )
+            if reference_zeta_mm is not None:
+                reference_index = int(reference_zeta_mm / delta_z_mm)
+            else:
+                reference_index = max(zeta_mapping_app.keys())
+
+            mean_zero_crossing_depth_mm = np.array(
+                [
+                    offsets_app[indices_app.index(series_id)] + depth_mean_mm
+                    for series_id, depth_mean_mm in zeta_mapping[reference_index]
+                ]
+            ).mean()
+
+            Sy, master_rise_crossing_depth_mm = weighted_master_rise_storage(
+                indices_app, offsets_app, mean_zero_crossing_depth_mm, zeta_mapping_app, recharge_error_weight
+            )
+
+            all_master_rise.append(master_rise_crossing_depth_mm)
+
+            count = count + 1
+
+            Sy_diff = sum((Sy_previous[i][1]-Sy[i][1])**2 for i in range(len(Sy)-1))
+            print('Sy_diff = ' + str(Sy_diff))
+            if Sy_diff >= 0.5:
+                Sy_previous = Sy
+                master_rise_crossing_depth_mm_previous = master_rise_crossing_depth_mm
+                print('This is iteration number ' + str(count-1) + ', not converged yet.')
+            else:
+                observed_recharge = None
+                print('An equilibrium (=converged) was reached after ' + str(count-1) + ' iterations.')
+
+
+            print('ok')
+
+
+    # SA! added to write out the weighted master rise curve for plotting
+    if recharge_error_weight != 0:
         for discrete_zeta, crossings in zeta_mapping_old.items():
             master_rise_crossing_depth = next((arr[0] for t, arr in master_rise_crossing_depth_mm if t == discrete_zeta), None)
             cursor.execute(
@@ -332,9 +445,11 @@ def weighted_master_rise_storage(indices, offsets, mean_zero_crossing_depth_mm, 
 
     rain_depth_offset_mm = offsets - mean_zero_crossing_depth_mm
     rain_depth_offset_mm = np.stack((np.array(indices).T,rain_depth_offset_mm.T), axis = 0)
+    print('loops')
 
     master_rise_crossing_depth_mm = []
     for discrete_zeta, crossings in sorted(zeta_mapping.items()):
+        print(discrete_zeta)
         value_sum = 0
         weight_sum = 0
         for series_id, mean_crossing_depth_mm in crossings:
@@ -351,7 +466,16 @@ def weighted_master_rise_storage(indices, offsets, mean_zero_crossing_depth_mm, 
 
     #M = assemble_weighted_mean_matrix(zeta_mapping, recharge_error_weight, Rfij)
 
-    return master_rise_crossing_depth_mm
+
+    Sy = []
+    for i in range(len(master_rise_crossing_depth_mm)-1):
+        i=i+1
+        Sy_value= (abs(master_rise_crossing_depth_mm[i][1])-abs(master_rise_crossing_depth_mm[i-1][1]))/(abs(master_rise_crossing_depth_mm[i][0])-abs(master_rise_crossing_depth_mm[i-1][0]))
+        Sy.append((master_rise_crossing_depth_mm[i-1][0],Sy_value))
+
+    master_rise_crossing_depth_mm = [tuple(x) for x in master_rise_crossing_depth_mm]
+
+    return Sy, master_rise_crossing_depth_mm
 
 
 def get_head_step(cursor):

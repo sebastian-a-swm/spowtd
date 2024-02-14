@@ -40,7 +40,7 @@ def plot_rise(connection, parameters):
     plt.axhline(y=0, xmin=-100, xmax=100, color='grey', linestyle='--')
 
     #SA! 1 is for weighted master rise curve plotting AND 0 is for original master rise curve plotting
-    weighted = 0
+    weighted = 1
     if weighted == 0:
         cursor.execute(
             """
