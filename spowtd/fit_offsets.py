@@ -27,7 +27,7 @@ def get_series_time_offsets(series_list, head_step):
     return get_series_offsets(head_mapping, index_mapping)
 
 
-def get_series_offsets(series_list, head_mapping, index_mapping, recharge_error_weight=0, head_step=0):
+def get_series_offsets(head_mapping, index_mapping, recharge_error_weight=0):
     """Find offsets that minimizes difference in head crossing times
 
     Given a sequence of (x, head) data series, rediscretize to get an
@@ -52,9 +52,9 @@ def get_series_offsets(series_list, head_mapping, index_mapping, recharge_error_
 
     """
     #SA! added
-    Rfij = calculate_Rfij(series_list, head_mapping, index_mapping, head_step)
+    #Rfij = calculate_Rfij(series_list, head_mapping, index_mapping, head_step)
 
-    series_ids, offsets = find_offsets(head_mapping, recharge_error_weight, Rfij)
+    series_ids, offsets = find_offsets(head_mapping, recharge_error_weight)
     assert len(series_ids) == len(offsets)
     original_indices = [index_mapping[series_id] for series_id in series_ids]
     # We need to map series ids in head_mapping back to their original
@@ -160,7 +160,7 @@ def build_exhaustive_head_mapping(series, head_step=1):
     return head_mapping
 
 
-def find_offsets(head_mapping, recharge_error_weight=0, Rfij=0):
+def find_offsets(head_mapping, recharge_error_weight=0):
     """Find the time offsets that align the series in head_mapping
 
     Finds the set of time offsets that minimize the sum of squared differences
@@ -199,7 +199,6 @@ def find_offsets(head_mapping, recharge_error_weight=0, Rfij=0):
             head_mapping,
             series_indices,
             recharge_error_weight=recharge_error_weight,
-            Rfij=Rfij
         )
         assert Omega.shape == (len(b), len(b))
         offsets = gls_solve(A, b, Omega)
@@ -226,7 +225,7 @@ def assemble_event_incidence_matrix(head_mapping):
     return np.array(D, dtype=int)
 
 
-def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight, Rfij):
+def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight):
     """Assemble weighted mean operator matrix M
 
     Recharge_error_weight (typical order might be 1e3) is the relative weight
@@ -262,7 +261,7 @@ def assemble_weighted_mean_matrix(head_mapping, recharge_error_weight, Rfij):
     k = 0
     for head_id, series_at_head in sorted(head_mapping.items()):
         all_inverse_variances = np.array(
-            [1 / (Rfij[(head_id,sid)]**2 + var_s) for sid, rij in series_at_head],
+            [1 / (rij**2 + var_s) for sid, rij in series_at_head],
             dtype=float,
         )
         nonzero_terms = all_inverse_variances / all_inverse_variances.sum()
@@ -342,7 +341,7 @@ def assemble_linear_system(
 
 
 def assemble_weighted_linear_system(
-    head_mapping, series_indices, recharge_error_weight, Rfij
+    head_mapping, series_indices, recharge_error_weight
 ):
     """Assemble linear system for fitting offsets with weighting
 
@@ -375,7 +374,7 @@ def assemble_weighted_linear_system(
         '%s equations, %s unknowns', number_of_equations, number_of_unknowns
     )
     D = assemble_event_incidence_matrix(head_mapping)
-    M = assemble_weighted_mean_matrix(head_mapping, recharge_error_weight, Rfij)
+    M = assemble_weighted_mean_matrix(head_mapping, recharge_error_weight)
     assert M.shape == (D.shape[0], D.shape[0])
     dev = np.identity(D.shape[0]) - M
     assert dev.shape == (D.shape[0], D.shape[0])
